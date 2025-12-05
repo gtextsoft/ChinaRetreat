@@ -1,16 +1,18 @@
 /* Global Variables & Reset */
 :root {
-    --primary-color: #D4AF37;
-    /* Metallic Gold */
-    --secondary-color: #8B0000;
-    /* Deep Japan Red */
+    --primary-color: #d7b24a;
+    /* Imperial Gold */
+    --secondary-color: #b30d0d;
+    /* Imperial Red */
+    --accent-jade: #0f6a3c;
+    /* Jade Green */
     --bg-dark: #0a0a0a;
     /* Almost Black */
     --bg-card: #141414;
     /* Dark Grey */
     --text-light: #f5f5f5;
     --text-grey: #a0a0a0;
-    --font-heading: 'Outfit', sans-serif;
+    --font-heading: 'Outfit', 'Noto Serif SC', sans-serif;
     --font-body: 'Inter', sans-serif;
     --transition: all 0.3s ease;
 }
@@ -28,6 +30,10 @@ html {
 body {
     font-family: var(--font-body);
     background-color: var(--bg-dark);
+    background-image:
+        radial-gradient(circle at 20% 20%, rgba(179, 13, 13, 0.15), transparent 30%),
+        radial-gradient(circle at 80% 10%, rgba(215, 178, 74, 0.12), transparent 28%),
+        radial-gradient(circle at 50% 80%, rgba(15, 106, 60, 0.12), transparent 32%);
     color: var(--text-light);
     line-height: 1.6;
     overflow-x: hidden;
@@ -199,7 +205,7 @@ img {
 /* Hero Section */
 .hero {
     height: 100vh;
-    background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.7)), url('images/hero-bg.png');
+    background: linear-gradient(rgba(10, 10, 10, 0.75), rgba(10, 10, 10, 0.8)), url('images/china-hero-skyline.png');
     background-size: cover;
     background-position: center;
     background-attachment: fixed;
@@ -237,6 +243,10 @@ img {
     max-width: 700px;
     margin-left: auto;
     margin-right: auto;
+}
+
+.hero-micro-accent {
+    color: #e8d9b3;
 }
 
 .hero-benefits {
@@ -310,10 +320,23 @@ img {
 .section-title {
     font-size: 3rem;
     margin-bottom: 30px;
+    position: relative;
+    display: inline-block;
 }
 
 .section-title span {
     color: var(--primary-color);
+}
+
+.section-title::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: -10px;
+    width: 80px;
+    height: 4px;
+    background: linear-gradient(90deg, var(--secondary-color), var(--primary-color));
+    border-radius: 4px;
 }
 
 .mini-list {
@@ -370,13 +393,13 @@ img {
 .not-for {
     margin-top: 60px;
     padding: 40px;
-    background: rgba(139, 0, 0, 0.1);
+    background: rgba(179, 13, 13, 0.12);
     border-left: 4px solid var(--secondary-color);
 }
 
 /* Outcomes */
 .outcomes {
-    background: linear-gradient(rgba(0, 0, 0, 0.9), rgba(0, 0, 0, 0.9)), url('images/strategy-session.png');
+    background: linear-gradient(rgba(0, 0, 0, 0.9), rgba(0, 0, 0, 0.9)), url('images/shanghai-boardroom-strategy.png');
     background-size: cover;
     background-attachment: fixed;
 }
@@ -574,7 +597,7 @@ img {
 
 /* Testimonials */
 .testimonials {
-    background: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)), url('images/testimonial-bg.png');
+    background: linear-gradient(rgba(0, 0, 0, 0.82), rgba(0, 0, 0, 0.85)), url('images/red-lantern-ambience.png');
     background-size: cover;
     background-attachment: fixed;
 }
