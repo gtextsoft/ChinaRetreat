@@ -17,22 +17,26 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Smooth Scrolling
+    // Smooth scrolling for in-page anchors
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        const href = anchor.getAttribute('href');
+        if (href === '#') return;
+
         anchor.addEventListener('click', function (e) {
+            const target = document.querySelector(href);
+            if (!target) return;
+
             e.preventDefault();
-            navLinks.classList.remove('active'); // Close mobile menu on click
-            
-            // Reset icon
+            if (navLinks) navLinks.classList.remove('active');
             if (mobileBtn) {
                 const icon = mobileBtn.querySelector('i');
-                icon.classList.remove('fa-times');
-                icon.classList.add('fa-bars');
+                if (icon) {
+                    icon.classList.remove('fa-times');
+                    icon.classList.add('fa-bars');
+                }
             }
 
-            document.querySelector(this.getAttribute('href')).scrollIntoView({
-                behavior: 'smooth'
-            });
+            target.scrollIntoView({ behavior: 'smooth' });
         });
     });
 
