@@ -228,7 +228,7 @@ img {
 }
 
 .hero h1 {
-    font-size: clamp(2.25rem, 5vw, 3.75rem);
+    font-size: clamp(1.5rem, 3.25vw, 2.25rem);
     margin-bottom: 1.25rem;
     font-weight: 400;
     letter-spacing: -0.02em;
@@ -531,6 +531,9 @@ img {
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
     gap: 30px;
     margin-top: 50px;
+    max-width: 420px;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .pricing-card {
@@ -560,8 +563,16 @@ img {
 
 .package-name {
     font-size: 1.5rem;
-    margin-bottom: 20px;
+    margin-bottom: 10px;
     color: var(--text-light);
+}
+
+.package-price {
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--primary-color);
+    margin-bottom: 20px;
+    font-family: var(--font-display);
 }
 
 .package-features {
@@ -688,8 +699,15 @@ footer {
 
 /* Responsive */
 @media (max-width: 768px) {
+    .hero {
+        min-height: 100vh;
+        height: auto;
+        padding: 100px 0 60px;
+        background-attachment: scroll;
+    }
+
     .hero h1 {
-        font-size: 2.5rem;
+        font-size: 1.625rem;
     }
 
     .nav-links {
@@ -955,6 +973,23 @@ footer {
 /* Utility: full-width buttons in cards */
 .pricing-card .btn {
     width: 100%;
+}
+
+/* Payment / Visa cover */
+.payment-cover {
+    margin-top: 1.25rem;
+    font-size: 0.85rem;
+    color: var(--text-grey);
+}
+
+.visa-badge {
+    display: inline-block;
+    padding: 2px 8px;
+    background: linear-gradient(135deg, #1a1f71 0%, #2d38a4 100%);
+    color: #fff;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    border-radius: 3px;
 }
 
 /* Testimonial attribution */
