@@ -59,6 +59,106 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
+    // Outcomes Carousel (mobile)
+    const outcomesSection = document.querySelector('#outcomes');
+    const outcomeGrid = outcomesSection ? outcomesSection.querySelector('.outcome-grid') : null;
+    const outcomeNav = outcomesSection ? outcomesSection.querySelector('.outcome-carousel-nav') : null;
+
+    if (outcomeGrid && outcomeNav) {
+        const cards = Array.from(outcomeGrid.querySelectorAll('.outcome-card'));
+        const prevBtn = outcomeNav.querySelector('.outcome-carousel-prev');
+        const nextBtn = outcomeNav.querySelector('.outcome-carousel-next');
+        const dotsContainer = outcomeNav.querySelector('.outcome-carousel-dots');
+
+        const mq = window.matchMedia('(max-width: 768px)');
+        let activeIndex = 0;
+        let dotsRendered = false;
+        let carouselObserver = null;
+
+        const setActiveDot = (index) => {
+            activeIndex = index;
+            if (!dotsContainer) return;
+            const dots = Array.from(dotsContainer.querySelectorAll('.outcome-carousel-dot'));
+            dots.forEach((dot, i) => {
+                dot.classList.toggle('active', i === index);
+                dot.setAttribute('aria-current', i === index ? 'true' : 'false');
+            });
+        };
+
+        const scrollToCard = (index) => {
+            const clamped = Math.max(0, Math.min(index, cards.length - 1));
+            cards[clamped]?.scrollIntoView({ behavior: 'smooth', inline: 'start', block: 'nearest' });
+        };
+
+        const renderDots = () => {
+            if (dotsRendered) return;
+            dotsRendered = true;
+
+            if (!dotsContainer) return;
+            dotsContainer.innerHTML = '';
+
+            cards.forEach((_, idx) => {
+                const dotBtn = document.createElement('button');
+                dotBtn.type = 'button';
+                dotBtn.className = 'outcome-carousel-dot';
+                dotBtn.setAttribute('aria-label', `Outcome ${idx + 1}`);
+                dotBtn.setAttribute('aria-current', idx === 0 ? 'true' : 'false');
+                dotBtn.addEventListener('click', () => {
+                    if (!mq.matches) return;
+                    scrollToCard(idx);
+                });
+                dotsContainer.appendChild(dotBtn);
+            });
+
+            setActiveDot(0);
+        };
+
+        const attachObserver = () => {
+            if (carouselObserver) carouselObserver.disconnect();
+
+            carouselObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (!entry.isIntersecting) return;
+                    const idx = cards.indexOf(entry.target);
+                    if (idx >= 0) setActiveDot(idx);
+                });
+            }, {
+                root: outcomeGrid,
+                threshold: 0.6
+            });
+
+            cards.forEach(card => carouselObserver.observe(card));
+        };
+
+        const enable = () => {
+            if (!mq.matches) return;
+            renderDots();
+            attachObserver();
+        };
+
+        // Prev / Next
+        if (prevBtn) {
+            prevBtn.addEventListener('click', () => {
+                if (!mq.matches) return;
+                scrollToCard(activeIndex - 1);
+            });
+        }
+
+        if (nextBtn) {
+            nextBtn.addEventListener('click', () => {
+                if (!mq.matches) return;
+                scrollToCard(activeIndex + 1);
+            });
+        }
+
+        // Initial + resize handling
+        enable();
+        mq.addEventListener('change', () => {
+            if (!mq.matches && carouselObserver) carouselObserver.disconnect();
+            enable();
+        });
+    }
+
     // Scroll Animation (Intersection Observer)
     const observerOptions = {
         threshold: 0.1
