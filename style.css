@@ -1290,6 +1290,28 @@ footer {
     .who-card h3 {
         font-size: 1.35rem;
     }
+
+    /* Keep Who-for typography readable (global section sizing may be too large) */
+    .who-for.section-padding {
+        font-size: 1rem;
+        line-height: 1.65;
+    }
+
+    /* Avoid touch hover transform looking "stacked" or jumpy */
+    .who-card:hover {
+        border-color: rgba(201, 162, 39, 0.6);
+        transform: none;
+        box-shadow: 0 18px 40px rgba(0, 0, 0, 0.45);
+    }
+
+    /* Slightly reduce on-mobile card padding for cleaner spacing */
+    .who-card {
+        padding: 24px 18px;
+    }
+
+    .who-card h3 {
+        font-size: 1.2rem;
+    }
 }
 
 /* MailerLite Form Overrides */
