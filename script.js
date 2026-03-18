@@ -170,10 +170,10 @@ document.addEventListener('DOMContentLoaded', () => {
         const nextBtn = whoNav.querySelector('.who-carousel-next');
         const dotsContainer = whoNav.querySelector('.who-carousel-dots');
 
-        const mq = window.matchMedia('(max-width: 768px)');
+        const mq = window.matchMedia('(max-width: 1024px)');
         let activeIndex = 0;
         let dotsRendered = false;
-        let carouselObserver = null;
+        let initialized = false;
 
         const setActiveDot = (index) => {
             activeIndex = index;
@@ -185,9 +185,22 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         };
 
-        const scrollToCard = (index) => {
+        const setActiveCard = (index) => {
             const clamped = Math.max(0, Math.min(index, cards.length - 1));
-            cards[clamped]?.scrollIntoView({ behavior: 'smooth', inline: 'start', block: 'nearest' });
+            activeIndex = clamped;
+
+            cards.forEach((card, i) => {
+                const isActive = i === clamped;
+                card.classList.toggle('active', isActive);
+
+                // Ensure the card is visible even if the global scroll-fade observer didn't run.
+                if (isActive) {
+                    card.classList.add('fade-in');
+                    card.style.opacity = '1';
+                }
+            });
+
+            setActiveDot(clamped);
         };
 
         const renderDots = () => {
@@ -205,54 +218,44 @@ document.addEventListener('DOMContentLoaded', () => {
                 dotBtn.setAttribute('aria-current', idx === 0 ? 'true' : 'false');
                 dotBtn.addEventListener('click', () => {
                     if (!mq.matches) return;
-                    scrollToCard(idx);
+                    setActiveCard(idx);
                 });
                 dotsContainer.appendChild(dotBtn);
             });
 
-            setActiveDot(0);
-        };
-
-        const attachObserver = () => {
-            if (carouselObserver) carouselObserver.disconnect();
-
-            carouselObserver = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (!entry.isIntersecting) return;
-                    const idx = cards.indexOf(entry.target);
-                    if (idx >= 0) setActiveDot(idx);
-                });
-            }, {
-                root: whoGrid,
-                threshold: 0.6
-            });
-
-            cards.forEach(card => carouselObserver.observe(card));
+            setActiveCard(0);
         };
 
         const enable = () => {
             if (!mq.matches) return;
             renderDots();
-            attachObserver();
+            if (!initialized) {
+                initialized = true;
+                setActiveCard(0);
+            }
         };
 
         if (prevBtn) {
             prevBtn.addEventListener('click', () => {
                 if (!mq.matches) return;
-                scrollToCard(activeIndex - 1);
+                setActiveCard(activeIndex - 1);
             });
         }
 
         if (nextBtn) {
             nextBtn.addEventListener('click', () => {
                 if (!mq.matches) return;
-                scrollToCard(activeIndex + 1);
+                setActiveCard(activeIndex + 1);
             });
         }
 
         enable();
         mq.addEventListener('change', () => {
-            if (!mq.matches && carouselObserver) carouselObserver.disconnect();
+            if (!mq.matches) {
+                // Restore all cards on desktop/tablet-large.
+                cards.forEach(card => card.classList.remove('active'));
+                return;
+            }
             enable();
         });
     }
@@ -274,5 +277,11 @@ document.addEventListener('DOMContentLoaded', () => {
     document.querySelectorAll('.animate-on-scroll').forEach(el => {
         el.style.opacity = '0'; // Initial state
         observer.observe(el);
+    });
+
+    // If a carousel is already showing a slide, ensure its card isn't stuck at opacity 0.
+    document.querySelectorAll('.who-for .who-card.active').forEach(card => {
+        card.classList.add('fade-in');
+        card.style.opacity = '1';
     });
 });
