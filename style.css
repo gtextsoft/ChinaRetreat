@@ -258,6 +258,64 @@ img {
     color: #e8d9b3;
 }
 
+.hero-event-details {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 14px 22px;
+    margin-top: 1.5rem;
+    padding: 1.1rem 1.15rem 1.15rem;
+    max-width: 36rem;
+    background: rgba(0, 0, 0, 0.38);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.35);
+}
+
+.hero-event-detail {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    min-width: 0;
+}
+
+.hero-event-detail-icon {
+    flex-shrink: 0;
+    width: 2rem;
+    height: 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 8px;
+    background: rgba(201, 162, 39, 0.12);
+    border: 1px solid rgba(201, 162, 39, 0.22);
+    color: var(--primary-color);
+    font-size: 0.85rem;
+}
+
+.hero-event-detail-text {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    min-width: 0;
+}
+
+.hero-event-detail-label {
+    font-size: 0.68rem;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--text-grey);
+}
+
+.hero-event-detail-value {
+    font-size: 0.92rem;
+    line-height: 1.45;
+    color: var(--text-light);
+}
+
+.hero-event-details .hero-event-detail:last-child:nth-child(odd) {
+    grid-column: 1 / -1;
+}
+
 .hero-meta-row {
     margin-top: 1.75rem;
     border-top: 1px solid rgba(255, 255, 255, 0.12);
@@ -941,8 +999,17 @@ img {
 
 .package-name {
     font-size: 1.5rem;
-    margin-bottom: 10px;
+    margin-bottom: 6px;
     color: var(--text-light);
+}
+
+.package-dates {
+    font-size: 0.95rem;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    color: var(--primary-color);
+    margin: 0 0 14px;
+    opacity: 0.95;
 }
 
 .package-price {
@@ -1172,6 +1239,15 @@ footer {
 
     .hero-content {
         max-width: 100%;
+    }
+
+    .hero-event-details {
+        grid-template-columns: 1fr;
+        max-width: none;
+    }
+
+    .hero-event-details .hero-event-detail:last-child:nth-child(odd) {
+        grid-column: auto;
     }
 
     .hero h1 {
