@@ -1,4 +1,37 @@
 document.addEventListener('DOMContentLoaded', () => {
+    // Navbar scroll state
+    const navbar = document.querySelector('.navbar');
+    const setNavbarScrolled = () => {
+        if (!navbar) return;
+        navbar.classList.toggle('is-scrolled', window.scrollY > 16);
+    };
+    setNavbarScrolled();
+    window.addEventListener('scroll', setNavbarScrolled, { passive: true });
+
+    // Sticky booking bar (after hero, hide near footer)
+    const hero = document.querySelector('.hero');
+    const stickyCta = document.getElementById('sticky-cta');
+    const footer = document.querySelector('footer');
+
+    const updateStickyCta = () => {
+        if (!hero || !stickyCta) return;
+        const heroEnd = hero.offsetTop + hero.offsetHeight;
+        const scrollY = window.scrollY;
+        let hideNearFooter = false;
+        if (footer) {
+            const footerTop = footer.offsetTop;
+            hideNearFooter = scrollY > footerTop - window.innerHeight * 0.85;
+        }
+        const show = scrollY > heroEnd - 100 && !hideNearFooter;
+        stickyCta.classList.toggle('is-visible', show);
+        document.body.classList.toggle('sticky-cta-active', show);
+        stickyCta.setAttribute('aria-hidden', show ? 'false' : 'true');
+    };
+
+    updateStickyCta();
+    window.addEventListener('scroll', updateStickyCta, { passive: true });
+    window.addEventListener('resize', updateStickyCta, { passive: true });
+
     // Mobile Menu Toggle
     const mobileBtn = document.querySelector('.mobile-menu-btn');
     const navLinks = document.querySelector('.nav-links');

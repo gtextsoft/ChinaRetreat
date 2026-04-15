@@ -36,7 +36,8 @@
                 <li><a href="#itinerary">Itinerary</a></li>
                 <li><a href="#pricing">Pricing</a></li>
                 <li><a href="#host">Host</a></li>
-                <li><a href="#pricing" class="btn btn-primary btn-nav">Pay Now</a></li>
+                <li><a href="#faq">FAQ</a></li>
+                <li><a href="#pricing" class="btn btn-primary btn-nav">Reserve seat</a></li>
             </ul>
         </div>
     </nav>
@@ -48,6 +49,11 @@
             <div class="hero-content">
                 <span class="hero-subtitle">China Business Retreat 2026 · 28 October – 7 November · 中国商务游学</span>
                 <h1>A 7‑Day Luxury Business, Trade &amp; Investment Experience</h1>
+                <ul class="hero-benefits" aria-label="What you get">
+                    <li><i class="fas fa-network-wired" aria-hidden="true"></i> Curated business networking</li>
+                    <li><i class="fas fa-hotel" aria-hidden="true"></i> Luxury on‑ground experience</li>
+                    <li><i class="fas fa-chart-line" aria-hidden="true"></i> Direct market &amp; factory access</li>
+                </ul>
                 <p class="hero-micro hero-micro-lead">
                     A private, high‑level immersion into China’s scale, manufacturing, and investment ecosystems for serious founders and investors.
                 </p>
@@ -101,8 +107,14 @@
                 </div>
 
                 <div class="hero-cta-row">
-                    <a href="#pricing" class="btn btn-primary">Pay Now</a>
-                    <span class="hero-cta-note">Limited to 25 seats · Visa support included</span>
+                    <a href="https://buy.stripe.com/cNi8wQdRi8PJ7cG2oQew800" class="btn btn-primary btn-hero-primary" target="_blank" rel="noopener noreferrer">Reserve your seat — $12,500</a>
+                    <a href="#itinerary" class="btn btn-secondary btn-hero-secondary">View full itinerary</a>
+                </div>
+                <p class="hero-cta-note">Limited to 25 seats · Visa support included · Secure Stripe checkout</p>
+                <div class="hero-trust-strip" aria-label="Trust signals">
+                    <span class="hero-trust-item"><i class="fas fa-lock" aria-hidden="true"></i> Encrypted payment</span>
+                    <span class="hero-trust-item"><i class="fas fa-envelope-open-text" aria-hidden="true"></i> Instant email confirmation</span>
+                    <span class="hero-trust-item"><i class="fas fa-headset" aria-hidden="true"></i> Team onboarding after booking</span>
                 </div>
             </div>
 
@@ -387,6 +399,7 @@
                 <h2 class="section-title">Join the <span>Experience</span></h2>
                 <p class="pricing-lead">All‑inclusive, single investment for the full 7‑day retreat.</p>
                 <p class="text-grey">Covers accommodation, on‑ground logistics, business tours, and core retreat programming.</p>
+                <p class="pricing-value-anchor">Comparable to a high‑tier executive program — priced as one investment, not a series of add‑ons.</p>
             </div>
 
             <div class="pricing-layout">
@@ -396,6 +409,7 @@
                         <h3 class="package-name">China Business Retreat 2026</h3>
                         <p class="package-dates">28 October – 7 November 2026</p>
                         <p class="package-price">$12,500</p>
+                        <p class="package-price-note">~$1,786 per day · all core inclusions below</p>
                         <ul class="package-features">
                             <li>Full retreat access and all core sessions</li>
                             <li>Luxury accommodation (single occupancy)</li>
@@ -403,10 +417,14 @@
                             <li>Business, factory, and innovation hub access</li>
                             <li>Curated networking, masterminds, and deal rooms</li>
                         </ul>
-                        <a href="https://buy.stripe.com/cNi8wQdRi8PJ7cG2oQew800" class="btn btn-primary" target="_blank" rel="noopener noreferrer">Pay Now</a>
+                        <a href="https://buy.stripe.com/cNi8wQdRi8PJ7cG2oQew800" class="btn btn-primary btn-pricing-cta" target="_blank" rel="noopener noreferrer">Reserve your seat</a>
+                        <div class="pricing-trust-badges" aria-label="Payment security">
+                            <span><i class="fab fa-stripe" aria-hidden="true"></i> Stripe</span>
+                            <span><i class="fas fa-shield-alt" aria-hidden="true"></i> Secure checkout</span>
+                            <span><i class="fas fa-passport" aria-hidden="true"></i> Visa support in fee</span>
+                        </div>
                         <div class="payment-cover">
-                            <!-- <span class="visa-badge">VISA</span> -->
-                            &nbsp; Secure Stripe payment • Instant confirmation email • Visa support included in retreat fee.
+                            Instant confirmation • Intake form • Onboarding call • Full receipt by email.
                         </div>
                     </div>
                 </div>
@@ -461,6 +479,7 @@
         <div class="container">
             <div class="text-center animate-on-scroll">
                 <h2 class="section-title">What Past <span>Participants Say</span></h2>
+                <p class="testimonials-intro">Anonymous feedback from founders and executives who joined prior China programs with Dr. Akintayo.</p>
             </div>
 
             <div class="testimonial-grid">
@@ -484,10 +503,11 @@
     </section>
 
     <!-- FAQ -->
-    <section class="faq section-padding">
+    <section id="faq" class="faq section-padding">
         <div class="container">
             <div class="text-center animate-on-scroll">
                 <h2 class="section-title">Frequently Asked <span>Questions</span></h2>
+                <p class="faq-intro">Straight answers on visas, booking, and what to expect on the ground.</p>
             </div>
 
             <div class="faq-container animate-on-scroll">
@@ -498,7 +518,7 @@
                 </div>
                 <div class="faq-item">
                     <div class="faq-question">How do I secure my spot? <i class="fas fa-chevron-down"></i></div>
-                    <div class="faq-answer">Click “Pay Now” to complete your booking via our secure payment link. Your
+                    <div class="faq-answer">Use “Reserve your seat” to complete your booking via our secure payment link. Your
                         spot is confirmed once payment is received.</div>
                 </div>
                 <div class="faq-item">
@@ -530,7 +550,31 @@
             </div>
         </div>
     </section>
+
+    <!-- Final CTA -->
+    <section class="cta-final section-padding" aria-labelledby="cta-final-heading">
+        <div class="container cta-final-inner">
+            <div class="cta-final-copy">
+                <h2 id="cta-final-heading">Ready to walk the factory floors not just read about them?</h2>
+                <p>Join a small cohort of serious operators. One payment reserves your place; our team handles visa guidance and pre‑trip onboarding.</p>
+            </div>
+            <div class="cta-final-actions">
+                <a href="https://buy.stripe.com/cNi8wQdRi8PJ7cG2oQew800" class="btn btn-primary btn-cta-final" target="_blank" rel="noopener noreferrer">Reserve your seat — $12,500</a>
+                <a href="mailto:products@stephenakintayo.com?subject=China%20Business%20Retreat%202026%20inquiry" class="btn btn-secondary">Ask a question</a>
+            </div>
+        </div>
+    </section>
     </main>
+
+    <div class="sticky-cta" id="sticky-cta" aria-hidden="true">
+        <div class="container sticky-cta-inner">
+            <div class="sticky-cta-text">
+                <span class="sticky-cta-title">China Business Retreat 2026</span>
+                <span class="sticky-cta-meta">28 Oct – 7 Nov · <strong>$12,500</strong> · 25 seats</span>
+            </div>
+            <a href="https://buy.stripe.com/cNi8wQdRi8PJ7cG2oQew800" class="btn btn-primary btn-sticky-cta" target="_blank" rel="noopener noreferrer">Reserve</a>
+        </div>
+    </div>
 
     <!-- Footer -->
     <footer>
@@ -554,12 +598,13 @@
                         <li><a href="#itinerary">Itinerary</a></li>
                         <li><a href="#pricing">Pricing</a></li>
                         <li><a href="#host">Host</a></li>
+                        <li><a href="#faq">FAQ</a></li>
                     </ul>
                 </div>
                 <div class="footer-block footer-cta">
                     <h4>Ready to Join?</h4>
                     <p>Secure your seat in the next China Business Retreat.</p>
-                    <a href="#pricing" class="btn btn-primary btn-footer">View Investment</a>
+                    <a href="#pricing" class="btn btn-primary btn-footer">Reserve your seat</a>
                 </div>
             </div>
             <div class="footer-bottom">
