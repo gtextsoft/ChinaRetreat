@@ -1,5 +1,103 @@
 document.addEventListener('DOMContentLoaded', () => {
-    // Navbar scroll state
+    // Hero background video — respect reduced motion
+    const heroVideo = document.querySelector('.hero-video');
+    if (heroVideo && window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        heroVideo.pause();
+        heroVideo.removeAttribute('autoplay');
+    }
+
+    // ── Funnel config (single source of truth) ──
+    const FUNNEL = {
+        couponCode: 'CHINAA',
+        discountedPrice: 10000,
+        fullPrice: 12000,
+        totalDiscountSeats: 30,
+        seatsRemaining: 30, // Update manually or wire to backend
+        registrationDeadline: new Date('2026-03-31T23:59:59'),
+        stripeExecutive: 'https://buy.stripe.com/7sY28sbJagib54yd3uew80d',
+        stripeElite: 'https://buy.stripe.com/00w28saF6c1V40ubZqew80c'
+    };
+
+    const seatSelectors = [
+        '#seats-left-hero',
+        '#seats-left-pricing',
+        '#seats-left-urgency',
+        '#seats-left-final',
+        '#seats-left-sticky',
+        '#seats-left-exit'
+    ];
+
+    const updateScarcityUI = () => {
+        const seats = FUNNEL.seatsRemaining;
+        seatSelectors.forEach(sel => {
+            const el = document.querySelector(sel);
+            if (el) el.textContent = seats;
+        });
+
+        const bar = document.getElementById('seats-bar');
+        const fill = document.getElementById('seats-bar-fill');
+        if (bar && fill) {
+            const pct = (seats / FUNNEL.totalDiscountSeats) * 100;
+            fill.style.width = `${pct}%`;
+            bar.setAttribute('aria-valuenow', seats);
+            bar.setAttribute('aria-valuemax', FUNNEL.totalDiscountSeats);
+        }
+    };
+
+    const updateCountdown = () => {
+        const el = document.getElementById('countdown-days');
+        if (!el) return;
+        const now = new Date();
+        const diff = FUNNEL.registrationDeadline - now;
+        const days = Math.max(0, Math.ceil(diff / (1000 * 60 * 60 * 24)));
+        el.textContent = days;
+    };
+
+    updateScarcityUI();
+    updateCountdown();
+
+    // ── Analytics / retargeting events ──
+    const trackEvent = (name, params = {}) => {
+        if (typeof gtag === 'function') {
+            gtag('event', name, params);
+        }
+        if (typeof fbq === 'function') {
+            fbq('trackCustom', name, params);
+        }
+    };
+
+    document.querySelectorAll('.js-cta-primary').forEach(btn => {
+        btn.addEventListener('click', () => {
+            trackEvent('begin_checkout', {
+                event_category: 'cta',
+                event_label: btn.dataset.cta || 'primary',
+                value: FUNNEL.discountedPrice,
+                currency: 'USD'
+            });
+        });
+    });
+
+    document.querySelectorAll('.js-cta-secondary').forEach(btn => {
+        btn.addEventListener('click', () => {
+            trackEvent('begin_checkout', {
+                event_category: 'cta',
+                event_label: btn.dataset.cta || 'elite',
+                value: 15000,
+                currency: 'USD'
+            });
+        });
+    });
+
+    document.querySelectorAll('.js-cta-lead').forEach(btn => {
+        btn.addEventListener('click', () => {
+            trackEvent('generate_lead', {
+                event_category: 'lead_capture',
+                event_label: btn.dataset.cta || 'lead'
+            });
+        });
+    });
+
+    // ── Navbar scroll state ──
     const navbar = document.querySelector('.navbar');
     const setNavbarScrolled = () => {
         if (!navbar) return;
@@ -8,7 +106,7 @@ document.addEventListener('DOMContentLoaded', () => {
     setNavbarScrolled();
     window.addEventListener('scroll', setNavbarScrolled, { passive: true });
 
-    // Sticky booking bar (after hero, hide near footer)
+    // ── Sticky CTA bar ──
     const hero = document.querySelector('.hero');
     const stickyCta = document.getElementById('sticky-cta');
     const footer = document.querySelector('footer');
@@ -22,7 +120,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const footerTop = footer.offsetTop;
             hideNearFooter = scrollY > footerTop - window.innerHeight * 0.85;
         }
-        const show = scrollY > heroEnd - 100 && !hideNearFooter;
+        const show = scrollY > heroEnd - 80 && !hideNearFooter;
         stickyCta.classList.toggle('is-visible', show);
         document.body.classList.toggle('sticky-cta-active', show);
         stickyCta.setAttribute('aria-hidden', show ? 'false' : 'true');
@@ -32,7 +130,7 @@ document.addEventListener('DOMContentLoaded', () => {
     window.addEventListener('scroll', updateStickyCta, { passive: true });
     window.addEventListener('resize', updateStickyCta, { passive: true });
 
-    // Mobile Menu Toggle
+    // ── Mobile menu ──
     const mobileBtn = document.querySelector('.mobile-menu-btn');
     const navLinks = document.querySelector('.nav-links');
 
@@ -50,7 +148,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Smooth scrolling for in-page anchors
+    // ── Smooth scroll ──
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         const href = anchor.getAttribute('href');
         if (href === '#') return;
@@ -68,31 +166,22 @@ document.addEventListener('DOMContentLoaded', () => {
                     icon.classList.add('fa-bars');
                 }
             }
-
             target.scrollIntoView({ behavior: 'smooth' });
         });
     });
 
-    // FAQ Accordion
+    // ── FAQ accordion ──
     const faqItems = document.querySelectorAll('.faq-item');
     faqItems.forEach(item => {
         const question = item.querySelector('.faq-question');
         question.addEventListener('click', () => {
             const isActive = item.classList.contains('active');
-            
-            // Close all other items
-            faqItems.forEach(otherItem => {
-                otherItem.classList.remove('active');
-            });
-
-            // Toggle current item
-            if (!isActive) {
-                item.classList.add('active');
-            }
+            faqItems.forEach(otherItem => otherItem.classList.remove('active'));
+            if (!isActive) item.classList.add('active');
         });
     });
 
-    // Outcomes Carousel (mobile)
+    // ── Outcomes carousel (mobile) ──
     const outcomesSection = document.querySelector('#outcomes');
     const outcomeGrid = outcomesSection ? outcomesSection.querySelector('.outcome-grid') : null;
     const outcomeNav = outcomesSection ? outcomesSection.querySelector('.outcome-carousel-nav') : null;
@@ -102,7 +191,6 @@ document.addEventListener('DOMContentLoaded', () => {
         const prevBtn = outcomeNav.querySelector('.outcome-carousel-prev');
         const nextBtn = outcomeNav.querySelector('.outcome-carousel-next');
         const dotsContainer = outcomeNav.querySelector('.outcome-carousel-dots');
-
         const mq = window.matchMedia('(max-width: 768px)');
         let activeIndex = 0;
         let dotsRendered = false;
@@ -111,8 +199,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const setActiveDot = (index) => {
             activeIndex = index;
             if (!dotsContainer) return;
-            const dots = Array.from(dotsContainer.querySelectorAll('.outcome-carousel-dot'));
-            dots.forEach((dot, i) => {
+            dotsContainer.querySelectorAll('.outcome-carousel-dot').forEach((dot, i) => {
                 dot.classList.toggle('active', i === index);
                 dot.setAttribute('aria-current', i === index ? 'true' : 'false');
             });
@@ -124,42 +211,29 @@ document.addEventListener('DOMContentLoaded', () => {
         };
 
         const renderDots = () => {
-            if (dotsRendered) return;
+            if (dotsRendered || !dotsContainer) return;
             dotsRendered = true;
-
-            if (!dotsContainer) return;
             dotsContainer.innerHTML = '';
-
             cards.forEach((_, idx) => {
                 const dotBtn = document.createElement('button');
                 dotBtn.type = 'button';
                 dotBtn.className = 'outcome-carousel-dot';
                 dotBtn.setAttribute('aria-label', `Outcome ${idx + 1}`);
-                dotBtn.setAttribute('aria-current', idx === 0 ? 'true' : 'false');
-                dotBtn.addEventListener('click', () => {
-                    if (!mq.matches) return;
-                    scrollToCard(idx);
-                });
+                dotBtn.addEventListener('click', () => { if (mq.matches) scrollToCard(idx); });
                 dotsContainer.appendChild(dotBtn);
             });
-
             setActiveDot(0);
         };
 
         const attachObserver = () => {
             if (carouselObserver) carouselObserver.disconnect();
-
             carouselObserver = new IntersectionObserver((entries) => {
                 entries.forEach(entry => {
                     if (!entry.isIntersecting) return;
                     const idx = cards.indexOf(entry.target);
                     if (idx >= 0) setActiveDot(idx);
                 });
-            }, {
-                root: outcomeGrid,
-                threshold: 0.6
-            });
-
+            }, { root: outcomeGrid, threshold: 0.6 });
             cards.forEach(card => carouselObserver.observe(card));
         };
 
@@ -169,22 +243,8 @@ document.addEventListener('DOMContentLoaded', () => {
             attachObserver();
         };
 
-        // Prev / Next
-        if (prevBtn) {
-            prevBtn.addEventListener('click', () => {
-                if (!mq.matches) return;
-                scrollToCard(activeIndex - 1);
-            });
-        }
-
-        if (nextBtn) {
-            nextBtn.addEventListener('click', () => {
-                if (!mq.matches) return;
-                scrollToCard(activeIndex + 1);
-            });
-        }
-
-        // Initial + resize handling
+        prevBtn?.addEventListener('click', () => { if (mq.matches) scrollToCard(activeIndex - 1); });
+        nextBtn?.addEventListener('click', () => { if (mq.matches) scrollToCard(activeIndex + 1); });
         enable();
         mq.addEventListener('change', () => {
             if (!mq.matches && carouselObserver) carouselObserver.disconnect();
@@ -192,112 +252,110 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Who For Carousel (mobile)
-    const whoSection = document.querySelector('.who-for');
-    const whoGrid = whoSection ? whoSection.querySelector('.who-grid') : null;
-    const whoNav = whoSection ? whoSection.querySelector('.who-carousel-nav') : null;
+    // ── Past retreat sliders ──
+    const initPastRetreatSlider = (slider) => {
+        const slides = Array.from(slider.querySelectorAll('.past-retreat-slide'));
+        const prevBtn = slider.querySelector('.past-retreat-slider-prev');
+        const nextBtn = slider.querySelector('.past-retreat-slider-next');
+        const dotsContainer = slider.querySelector('.past-retreat-slider-dots');
+        const counter = slider.querySelector('.past-retreat-slider-counter');
+        if (!slides.length || !dotsContainer) return;
 
-    if (whoGrid && whoNav) {
-        const cards = Array.from(whoGrid.querySelectorAll('.who-card'));
-        const prevBtn = whoNav.querySelector('.who-carousel-prev');
-        const nextBtn = whoNav.querySelector('.who-carousel-next');
-        const dotsContainer = whoNav.querySelector('.who-carousel-dots');
-
-        const mq = window.matchMedia('(max-width: 1024px)');
         let activeIndex = 0;
         let dotsRendered = false;
-        let initialized = false;
 
-        const setActiveDot = (index) => {
-            activeIndex = index;
-            if (!dotsContainer) return;
-            const dots = Array.from(dotsContainer.querySelectorAll('.who-carousel-dot'));
-            dots.forEach((dot, i) => {
-                dot.classList.toggle('active', i === index);
-                dot.setAttribute('aria-current', i === index ? 'true' : 'false');
-            });
-        };
-
-        const setActiveCard = (index) => {
-            const clamped = Math.max(0, Math.min(index, cards.length - 1));
+        const setActiveSlide = (index) => {
+            const clamped = (index + slides.length) % slides.length;
             activeIndex = clamped;
-
-            cards.forEach((card, i) => {
-                const isActive = i === clamped;
-                card.classList.toggle('active', isActive);
-
-                // Ensure the card is visible even if the global scroll-fade observer didn't run.
-                if (isActive) {
-                    card.classList.add('fade-in');
-                    card.style.opacity = '1';
-                }
+            slides.forEach((slide, i) => slide.classList.toggle('is-active', i === clamped));
+            dotsContainer.querySelectorAll('.past-retreat-slider-dot').forEach((dot, i) => {
+                dot.classList.toggle('active', i === clamped);
             });
-
-            setActiveDot(clamped);
+            if (counter) counter.textContent = `${clamped + 1} / ${slides.length}`;
         };
 
         const renderDots = () => {
             if (dotsRendered) return;
             dotsRendered = true;
-
-            if (!dotsContainer) return;
             dotsContainer.innerHTML = '';
-
-            cards.forEach((_, idx) => {
+            slides.forEach((_, idx) => {
                 const dotBtn = document.createElement('button');
                 dotBtn.type = 'button';
-                dotBtn.className = 'who-carousel-dot';
-                dotBtn.setAttribute('aria-label', `Profile ${idx + 1}`);
-                dotBtn.setAttribute('aria-current', idx === 0 ? 'true' : 'false');
-                dotBtn.addEventListener('click', () => {
-                    if (!mq.matches) return;
-                    setActiveCard(idx);
-                });
+                dotBtn.className = 'past-retreat-slider-dot';
+                dotBtn.setAttribute('aria-label', `Photo ${idx + 1}`);
+                dotBtn.addEventListener('click', () => setActiveSlide(idx));
                 dotsContainer.appendChild(dotBtn);
             });
-
-            setActiveCard(0);
         };
 
-        const enable = () => {
-            if (!mq.matches) return;
-            renderDots();
-            if (!initialized) {
-                initialized = true;
-                setActiveCard(0);
+        renderDots();
+        setActiveSlide(0);
+        prevBtn?.addEventListener('click', () => setActiveSlide(activeIndex - 1));
+        nextBtn?.addEventListener('click', () => setActiveSlide(activeIndex + 1));
+    };
+
+    document.querySelectorAll('[data-past-retreat-slider]').forEach(initPastRetreatSlider);
+
+    // ── Coupon copy + toast ──
+    let couponToastEl = document.getElementById('coupon-toast');
+    if (!couponToastEl) {
+        couponToastEl = document.createElement('div');
+        couponToastEl.id = 'coupon-toast';
+        couponToastEl.className = 'coupon-toast';
+        couponToastEl.setAttribute('role', 'status');
+        couponToastEl.setAttribute('aria-live', 'polite');
+        document.body.appendChild(couponToastEl);
+    }
+
+    let couponToastTimer = null;
+    const showCouponToast = (message) => {
+        couponToastEl.textContent = message;
+        couponToastEl.classList.add('is-visible');
+        clearTimeout(couponToastTimer);
+        couponToastTimer = setTimeout(() => couponToastEl.classList.remove('is-visible'), 2200);
+    };
+
+    document.querySelectorAll('[data-copy-coupon]').forEach(btn => {
+        btn.addEventListener('click', async () => {
+            const code = btn.getAttribute('data-copy-coupon') || FUNNEL.couponCode;
+            try {
+                await navigator.clipboard.writeText(code);
+                showCouponToast(`Copied ${code} — paste at Stripe checkout`);
+            } catch {
+                showCouponToast(`Your code: ${code}`);
             }
-        };
+        });
+    });
 
-        if (prevBtn) {
-            prevBtn.addEventListener('click', () => {
-                if (!mq.matches) return;
-                setActiveCard(activeIndex - 1);
-            });
-        }
+    // ── Exit intent ──
+    const exitIntent = document.getElementById('exit-intent');
+    let exitShown = false;
 
-        if (nextBtn) {
-            nextBtn.addEventListener('click', () => {
-                if (!mq.matches) return;
-                setActiveCard(activeIndex + 1);
-            });
-        }
+    const showExitIntent = () => {
+        if (exitShown || !exitIntent) return;
+        exitShown = true;
+        exitIntent.classList.add('is-visible');
+        exitIntent.setAttribute('aria-hidden', 'false');
+        trackEvent('exit_intent_shown', { event_category: 'engagement' });
+    };
 
-        enable();
-        mq.addEventListener('change', () => {
-            if (!mq.matches) {
-                // Restore all cards on desktop/tablet-large.
-                cards.forEach(card => card.classList.remove('active'));
-                return;
-            }
-            enable();
+    const hideExitIntent = () => {
+        if (!exitIntent) return;
+        exitIntent.classList.remove('is-visible');
+        exitIntent.setAttribute('aria-hidden', 'true');
+    };
+
+    document.querySelectorAll('[data-close-exit]').forEach(el => {
+        el.addEventListener('click', hideExitIntent);
+    });
+
+    if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        document.addEventListener('mouseout', (e) => {
+            if (e.clientY <= 0 && e.relatedTarget == null) showExitIntent();
         });
     }
 
-    // Scroll Animation (Intersection Observer)
-    const observerOptions = {
-        threshold: 0.1
-    };
-
+    // ── Scroll animations ──
     const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
@@ -305,16 +363,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 observer.unobserve(entry.target);
             }
         });
-    }, observerOptions);
+    }, { threshold: 0.1 });
 
     document.querySelectorAll('.animate-on-scroll').forEach(el => {
-        el.style.opacity = '0'; // Initial state
+        el.style.opacity = '0';
         observer.observe(el);
-    });
-
-    // If a carousel is already showing a slide, ensure its card isn't stuck at opacity 0.
-    document.querySelectorAll('.who-for .who-card.active').forEach(card => {
-        card.classList.add('fade-in');
-        card.style.opacity = '1';
     });
 });
