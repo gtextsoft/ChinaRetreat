@@ -317,6 +317,12 @@ img { max-width: 100%; display: block; }
     max-width: 680px;
 }
 
+.hero-date {
+    gap: 0.5em;
+    font-size: 0.72rem;
+    letter-spacing: 0.1em;
+}
+
 .hero-content h1 {
     font-size: clamp(1.9rem, 4.5vw, 2.85rem);
     margin-bottom: 1.25rem;
