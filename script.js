@@ -355,6 +355,97 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    // ── Pricing modal ──
+    const pricingModal = document.getElementById('pricing-modal');
+
+    if (pricingModal) {
+        const pricingCard = pricingModal.querySelector('.pricing-modal-card');
+        const focusableSelector = 'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])';
+        let lastFocused = null;
+
+        const openPricingModal = (source) => {
+            if (pricingModal.classList.contains('is-visible')) return;
+            lastFocused = document.activeElement;
+            hideExitIntent();
+            pricingModal.classList.add('is-visible');
+            pricingModal.setAttribute('aria-hidden', 'false');
+            document.body.classList.add('modal-open');
+            pricingCard?.scrollTo({ top: 0 });
+
+            const firstCta = pricingModal.querySelector('.btn-pricing-cta');
+            (firstCta || pricingModal.querySelector('.pricing-modal-close'))?.focus({ preventScroll: true });
+
+            trackEvent('view_pricing_modal', {
+                event_category: 'cta',
+                event_label: source || 'unknown'
+            });
+        };
+
+        const closePricingModal = () => {
+            if (!pricingModal.classList.contains('is-visible')) return;
+            pricingModal.classList.remove('is-visible');
+            pricingModal.setAttribute('aria-hidden', 'true');
+            document.body.classList.remove('modal-open');
+            if (lastFocused instanceof HTMLElement) lastFocused.focus({ preventScroll: true });
+        };
+
+        // Every "Reserve / View Packages" CTA opens the modal instead of jumping to a section
+        document.querySelectorAll('a[href="#pricing"], [data-open-pricing]').forEach(trigger => {
+            trigger.addEventListener('click', (e) => {
+                e.preventDefault();
+                if (navLinks) navLinks.classList.remove('active');
+                if (mobileBtn) {
+                    const icon = mobileBtn.querySelector('i');
+                    if (icon) {
+                        icon.classList.remove('fa-times');
+                        icon.classList.add('fa-bars');
+                    }
+                }
+                openPricingModal(trigger.dataset.cta || trigger.textContent.trim());
+            });
+        });
+
+        pricingModal.querySelectorAll('[data-close-pricing]').forEach(el => {
+            el.addEventListener('click', closePricingModal);
+        });
+
+        // Close after a package is chosen so the page isn't left behind a modal
+        pricingModal.querySelectorAll('.btn-pricing-cta').forEach(btn => {
+            btn.addEventListener('click', () => setTimeout(closePricingModal, 150));
+        });
+
+        document.addEventListener('keydown', (e) => {
+            if (!pricingModal.classList.contains('is-visible')) return;
+
+            if (e.key === 'Escape') {
+                closePricingModal();
+                return;
+            }
+
+            if (e.key !== 'Tab') return;
+
+            const focusable = Array.from(pricingModal.querySelectorAll(focusableSelector))
+                .filter(el => el.offsetParent !== null);
+            if (!focusable.length) return;
+
+            const first = focusable[0];
+            const last = focusable[focusable.length - 1];
+
+            if (e.shiftKey && document.activeElement === first) {
+                e.preventDefault();
+                last.focus();
+            } else if (!e.shiftKey && document.activeElement === last) {
+                e.preventDefault();
+                first.focus();
+            }
+        });
+
+        // Deep links (e.g. /#pricing from an email or ad) still land on the packages
+        if (window.location.hash === '#pricing') {
+            openPricingModal('deep-link');
+        }
+    }
+
     // ── Scroll animations ──
     const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {

@@ -346,67 +346,7 @@
             </div>
         </section>
 
-        <!-- 7. Packages & Pricing -->
-        <section id="pricing" class="pricing section-padding section--white">
-            <div class="container">
-                <div class="text-center animate-on-scroll">
-                    <div class="eyebrow-pill eyebrow-pill--dark">Your Investment</div>
-                    <br>
-                    <h2 class="section-title section-title--dark">Everything Included. <span>Nothing Left to Chance.</span></h2>
-                </div>
-
-                <div class="pricing-grid animate-on-scroll">
-                    <div class="pricing-card featured">
-                        <div class="pricing-badge">Most Popular</div>
-                        <h3 class="package-name">Executive Package</h3>
-                        <p class="package-dates">28th Oct – 7th Nov, 2026</p>
-                        <p class="package-price-row">
-                            <span class="package-price-original">$12,000</span>
-                            <span class="package-price">$10,000</span>
-                        </p>
-                        <p class="package-price-note">Early bird until <strong>31 July 2026</strong> · code <strong>CHINAA</strong> · shared/double occupancy · Economy flights</p>
-                        <ul class="package-features">
-                            <li><i class="fas fa-check"></i> Visa, flights, hotels, fair access &amp; all inclusions</li>
-                            <li><i class="fas fa-check"></i> Economy class flights from Lagos</li>
-                            <li><i class="fas fa-check"></i> Second class bullet train</li>
-                            <li><i class="fas fa-check"></i> Shared/double hotel occupancy</li>
-                            <li><i class="fas fa-check"></i> Payment plan available on request</li>
-                        </ul>
-                        <a href="https://buy.stripe.com/7sY28sbJagib54yd3uew80d"
-                            class="btn btn-primary btn-pricing-cta js-cta-primary"
-                            data-cta="pricing-executive"
-                            target="_blank"
-                            rel="noopener noreferrer">Reserve My Seat — $10,000</a>
-                        <p class="package-scarcity"><span id="seats-left-pricing">10</span> of 10 early-bird seats · +$2,000 after 31 July</p>
-                    </div>
-
-                    <div class="pricing-card">
-                        <div class="pricing-badge pricing-badge--muted">Elite VIP</div>
-                        <h3 class="package-name">Elite VIP Package</h3>
-                        <p class="package-dates">28th Oct – 7th Nov, 2026</p>
-                        <p class="package-price">$15,000</p>
-                        <p class="package-price-note">Business class · single room · VIP upgrades</p>
-                        <ul class="package-features">
-                            <li><i class="fas fa-check"></i> Everything in Executive, plus:</li>
-                            <li><i class="fas fa-check"></i> Business class flights from Lagos</li>
-                            <li><i class="fas fa-check"></i> Business class bullet train</li>
-                            <li><i class="fas fa-check"></i> Single room occupancy</li>
-                            <li><i class="fas fa-check"></i> VIP airport fast track &amp; private transfers</li>
-                            <li><i class="fas fa-check"></i> VIP Great Wall tour</li>
-                        </ul>
-                        <a href="https://buy.stripe.com/00w28saF6c1V40ubZqew80c"
-                            class="btn btn-secondary btn-pricing-cta js-cta-secondary"
-                            data-cta="pricing-elite"
-                            target="_blank"
-                            rel="noopener noreferrer">Reserve Elite VIP — $15,000</a>
-                    </div>
-                </div>
-
-                <div class="coupon-steps animate-on-scroll">
-                    <p><strong>How to claim $10,000:</strong> Click Reserve → on Stripe checkout, tap <em>Add promotion code</em> → enter <button type="button" class="coupon-copy-inline" data-copy-coupon="CHINAA">CHINAA</button></p>
-                </div>
-            </div>
-        </section>
+        <!-- 7. Packages & Pricing — presented in the pricing modal (#pricing-modal) -->
 
         <!-- 8. Risk Reversal -->
         <section id="guarantee" class="guarantee section-padding section--alt">
@@ -603,7 +543,7 @@
         <!-- 11. FAQ -->
         <section id="faq" class="faq section-padding section--white">
             <div class="container">
-                <div class="text-center animate-on-scroll">
+                <div class="section-heading text-center animate-on-scroll">
                     <div class="eyebrow-pill eyebrow-pill--dark">Objections Answered</div>
                     <h2 class="section-title section-title--dark">Frequently Asked <span>Questions</span></h2>
                 </div>
@@ -669,6 +609,76 @@
         </div>
     </div>
 
+    <!-- Packages & Pricing Modal -->
+    <div class="pricing-modal" id="pricing-modal" role="dialog" aria-modal="true" aria-labelledby="pricing-modal-title"
+        aria-hidden="true">
+        <div class="pricing-modal-backdrop" data-close-pricing></div>
+        <div class="pricing-modal-card">
+            <button type="button" class="pricing-modal-close" data-close-pricing aria-label="Close packages">&times;</button>
+
+            <div class="pricing-modal-head section-heading text-center">
+                <div class="eyebrow-pill eyebrow-pill--dark">Your Investment</div>
+                <h2 id="pricing-modal-title" class="section-title section-title--dark">Everything Included.
+                    <span>Nothing Left to Chance.</span></h2>
+            </div>
+
+            <div class="pricing-grid">
+                <div class="pricing-card featured">
+                    <div class="pricing-badge">Most Popular</div>
+                    <h3 class="package-name">Executive Package</h3>
+                    <p class="package-dates">28th Oct – 7th Nov, 2026</p>
+                    <p class="package-price-row">
+                        <span class="package-price-original">$12,000</span>
+                        <span class="package-price">$10,000</span>
+                    </p>
+                    <p class="package-price-note">Early bird until <strong>31 July 2026</strong> · code
+                        <strong>CHINAA</strong> · shared/double occupancy · Economy flights</p>
+                    <ul class="package-features">
+                        <li><i class="fas fa-check"></i> Visa, flights, hotels, fair access &amp; all inclusions</li>
+                        <li><i class="fas fa-check"></i> Economy class flights from Lagos</li>
+                        <li><i class="fas fa-check"></i> Second class bullet train</li>
+                        <li><i class="fas fa-check"></i> Shared/double hotel occupancy</li>
+                        <li><i class="fas fa-check"></i> Payment plan available on request</li>
+                    </ul>
+                    <a href="https://buy.stripe.com/7sY28sbJagib54yd3uew80d"
+                        class="btn btn-primary btn-pricing-cta js-cta-primary"
+                        data-cta="pricing-executive"
+                        target="_blank"
+                        rel="noopener noreferrer">Reserve My Seat — $10,000</a>
+                    <p class="package-scarcity"><span id="seats-left-pricing">10</span> of 10 early-bird seats · +$2,000
+                        after 31 July</p>
+                </div>
+
+                <div class="pricing-card">
+                    <div class="pricing-badge pricing-badge--muted">Elite VIP</div>
+                    <h3 class="package-name">Elite VIP Package</h3>
+                    <p class="package-dates">28th Oct – 7th Nov, 2026</p>
+                    <p class="package-price">$15,000</p>
+                    <p class="package-price-note">Business class · single room · VIP upgrades</p>
+                    <ul class="package-features">
+                        <li><i class="fas fa-check"></i> Everything in Executive, plus:</li>
+                        <li><i class="fas fa-check"></i> Business class flights from Lagos</li>
+                        <li><i class="fas fa-check"></i> Business class bullet train</li>
+                        <li><i class="fas fa-check"></i> Single room occupancy</li>
+                        <li><i class="fas fa-check"></i> VIP airport fast track &amp; private transfers</li>
+                        <li><i class="fas fa-check"></i> VIP Great Wall tour</li>
+                    </ul>
+                    <a href="https://buy.stripe.com/00w28saF6c1V40ubZqew80c"
+                        class="btn btn-secondary btn-pricing-cta js-cta-secondary"
+                        data-cta="pricing-elite"
+                        target="_blank"
+                        rel="noopener noreferrer">Reserve Elite VIP — $15,000</a>
+                </div>
+            </div>
+
+            <div class="coupon-steps">
+                <p><strong>How to claim $10,000:</strong> Click Reserve → on Stripe checkout, tap <em>Add promotion
+                        code</em> → enter <button type="button" class="coupon-copy-inline"
+                        data-copy-coupon="CHINAA">CHINAA</button></p>
+            </div>
+        </div>
+    </div>
+
     <!-- Exit Intent -->
     <div class="exit-intent" id="exit-intent" role="dialog" aria-labelledby="exit-intent-title" aria-hidden="true">
         <div class="exit-intent-backdrop" data-close-exit></div>
@@ -710,7 +720,7 @@
                 </article>
             </div>
 
-            <button type="button" class="exit-intent-dismiss" data-close-exit">No thanks, I'll decide later</button>
+            <button type="button" class="exit-intent-dismiss" data-close-exit>No thanks, I'll decide later</button>
         </div>
     </div>
 

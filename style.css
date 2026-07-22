@@ -172,6 +172,23 @@ img { max-width: 100%; display: block; }
     background: var(--red-tint);
 }
 
+/* Stacks an eyebrow pill above a section title — both are inline-level,
+   so without this they share a line box on wide viewports. */
+.section-heading {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.section-heading .eyebrow-pill {
+    margin-bottom: 0;
+}
+
+.section-heading .section-title {
+    margin-bottom: 0;
+}
+
 /* ── Buttons ── */
 .btn {
     display: inline-block;
@@ -1303,12 +1320,19 @@ img { max-width: 100%; display: block; }
 }
 
 .past-retreats-list {
-    display: flex;
-    flex-direction: column;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-rows: auto 1fr;
+    align-items: stretch;
     gap: 2.5rem;
 }
 
 .past-retreat-edition {
+    display: grid;
+    grid-row: span 2;
+    grid-template-rows: auto 1fr;
+    /* keeps the headers and sliders on a shared baseline across columns */
+    grid-template-rows: subgrid;
     background: var(--white);
     border: 1px solid var(--border);
     border-radius: var(--radius-lg);
@@ -1336,6 +1360,8 @@ img { max-width: 100%; display: block; }
 }
 
 .past-retreat-slider {
+    display: grid;
+    grid-template-rows: auto 1fr;
     padding: 0 12px 16px;
 }
 
@@ -1370,20 +1396,22 @@ img { max-width: 100%; display: block; }
 }
 
 .past-retreat-slider-controls {
-    display: flex;
+    display: grid;
+    grid-template-columns: 44px minmax(0, 1fr) 44px;
     align-items: center;
-    justify-content: space-between;
+    align-self: end;
     gap: 16px;
     margin-top: 14px;
     padding: 0 4px;
 }
 
 .past-retreat-slider-meta {
-    flex: 1;
     display: flex;
     flex-direction: column;
     align-items: center;
+    justify-content: center;
     gap: 10px;
+    min-width: 0;
 }
 
 .past-retreat-slider-dots {
@@ -1661,6 +1689,80 @@ body.sticky-cta-active {
 }
 
 /* ── Exit Intent ── */
+/* ── Pricing Modal ── */
+.pricing-modal {
+    position: fixed;
+    inset: 0;
+    z-index: 10003;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px 16px;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+}
+
+.pricing-modal.is-visible {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.pricing-modal-backdrop {
+    position: absolute;
+    inset: 0;
+    background: rgba(26, 26, 26, 0.65);
+}
+
+.pricing-modal-card {
+    position: relative;
+    width: 100%;
+    max-width: 900px;
+    max-height: calc(100vh - 48px);
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    padding: 40px 32px 32px;
+    background: var(--off-white);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-lg);
+    transform: translateY(16px) scale(0.98);
+    transition: transform 0.3s ease;
+}
+
+.pricing-modal.is-visible .pricing-modal-card {
+    transform: none;
+}
+
+.pricing-modal .pricing-grid {
+    margin-top: 2rem;
+}
+
+.pricing-modal .coupon-steps {
+    margin-top: 1.75rem;
+}
+
+.pricing-modal-close {
+    position: absolute;
+    top: 12px;
+    right: 16px;
+    z-index: 2;
+    background: none;
+    border: none;
+    color: var(--text-muted);
+    font-size: 1.75rem;
+    line-height: 1;
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.pricing-modal-close:hover {
+    color: var(--red);
+}
+
+body.modal-open {
+    overflow: hidden;
+}
+
 .exit-intent {
     position: fixed;
     inset: 0;
@@ -1913,6 +2015,9 @@ footer {
     .hero-scarcity i { animation: none; }
     .past-retreat-slide { transition: none; }
     .sticky-cta { transition: none; }
+    .pricing-modal,
+    .pricing-modal-card { transition: none; }
+    .pricing-modal-card { transform: none; }
     .hero-video {
         display: none;
     }
@@ -2046,6 +2151,26 @@ footer {
     .outcomes-footer .btn {
         width: 100%;
     }
+
+    .pricing-modal {
+        padding: 12px;
+    }
+
+    .pricing-modal-card {
+        max-height: calc(100vh - 24px);
+        padding: 36px 18px 24px;
+    }
+
+    .past-retreats-list {
+        grid-template-columns: minmax(0, 1fr);
+        grid-template-rows: none;
+        gap: 1.75rem;
+    }
+
+    .past-retreat-edition {
+        grid-row: auto;
+        grid-template-rows: auto 1fr;
+    }
 }
 
 @media (max-width: 1024px) and (min-width: 769px) {
@@ -2056,6 +2181,9 @@ footer {
     .outcome-card--featured {
         grid-column: span 2;
     }
+
+    .past-retreats-list { gap: 1.5rem; }
+    .past-retreat-slider-controls { gap: 10px; }
 }
 
 @media (max-width: 520px) {
