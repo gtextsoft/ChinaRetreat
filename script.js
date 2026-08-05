@@ -8,14 +8,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // ── Funnel config (single source of truth) ──
     const FUNNEL = {
-        couponCode: 'CHINAA',
         discountedPrice: 9000,
         fullPrice: 10000,
         totalDiscountSeats: 30,
         seatsRemaining: 10, // Update manually or wire to backend
         registrationDeadline: new Date('2026-07-31T23:59:59'),
-        stripeShared: 'https://buy.stripe.com/7sY28sbJagib54yd3uew80d',
-        stripePrivate: 'https://buy.stripe.com/00w28saF6c1V40ubZqew80c'
+        stripeShared: 'https://buy.stripe.com/cNi7sM8wY8PJ9kOe7yew80u',
+        stripePrivate: 'https://buy.stripe.com/3cI28s3cEgib68CfbCew80v'
     };
 
     const seatSelectors = [
@@ -360,37 +359,6 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     document.querySelectorAll('[data-past-retreat-slider]').forEach(initPastRetreatSlider);
-
-    // ── Coupon copy + toast ──
-    let couponToastEl = document.getElementById('coupon-toast');
-    if (!couponToastEl) {
-        couponToastEl = document.createElement('div');
-        couponToastEl.id = 'coupon-toast';
-        couponToastEl.className = 'coupon-toast';
-        couponToastEl.setAttribute('role', 'status');
-        couponToastEl.setAttribute('aria-live', 'polite');
-        document.body.appendChild(couponToastEl);
-    }
-
-    let couponToastTimer = null;
-    const showCouponToast = (message) => {
-        couponToastEl.textContent = message;
-        couponToastEl.classList.add('is-visible');
-        clearTimeout(couponToastTimer);
-        couponToastTimer = setTimeout(() => couponToastEl.classList.remove('is-visible'), 2200);
-    };
-
-    document.querySelectorAll('[data-copy-coupon]').forEach(btn => {
-        btn.addEventListener('click', async () => {
-            const code = btn.getAttribute('data-copy-coupon') || FUNNEL.couponCode;
-            try {
-                await navigator.clipboard.writeText(code);
-                showCouponToast(`Copied ${code} — paste at Stripe checkout`);
-            } catch {
-                showCouponToast(`Your code: ${code}`);
-            }
-        });
-    });
 
     // ── Exit intent package carousel (loops all packages) ──
     const exitSlider = document.querySelector('[data-exit-package-slider]');
