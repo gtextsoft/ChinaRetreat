@@ -252,46 +252,111 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // ── Past retreat sliders ──
+    // ── Past retreat sliders (horizontal side-by-side) ──
     const initPastRetreatSlider = (slider) => {
+        const viewport = slider.querySelector('.past-retreat-slider-viewport');
+        const track = slider.querySelector('.past-retreat-slider-track');
         const slides = Array.from(slider.querySelectorAll('.past-retreat-slide'));
         const prevBtn = slider.querySelector('.past-retreat-slider-prev');
         const nextBtn = slider.querySelector('.past-retreat-slider-next');
         const dotsContainer = slider.querySelector('.past-retreat-slider-dots');
         const counter = slider.querySelector('.past-retreat-slider-counter');
-        if (!slides.length || !dotsContainer) return;
+        if (!viewport || !track || !slides.length || !dotsContainer) return;
 
-        let activeIndex = 0;
-        let dotsRendered = false;
+        let index = 0;
+        let dragStartX = 0;
+        let dragDelta = 0;
+        let isDragging = false;
 
-        const setActiveSlide = (index) => {
-            const clamped = (index + slides.length) % slides.length;
-            activeIndex = clamped;
-            slides.forEach((slide, i) => slide.classList.toggle('is-active', i === clamped));
+        const getGap = () => {
+            const styles = getComputedStyle(slider);
+            return parseFloat(styles.getPropertyValue('--slide-gap')) || 14;
+        };
+
+        const getSlideStep = () => {
+            const slideWidth = slides[0].getBoundingClientRect().width;
+            return slideWidth + getGap();
+        };
+
+        const getMaxIndex = () => {
+            const visible = parseFloat(getComputedStyle(slider).getPropertyValue('--slides-visible')) || 2;
+            return Math.max(0, slides.length - Math.floor(visible));
+        };
+
+        const goTo = (nextIndex, { animate = true } = {}) => {
+            const maxIndex = getMaxIndex();
+            index = Math.max(0, Math.min(nextIndex, maxIndex));
+            const offset = index * getSlideStep();
+
+            if (!animate) track.style.transition = 'none';
+            track.style.transform = `translate3d(${-offset}px, 0, 0)`;
+            if (!animate) {
+                // Force reflow so transition can be restored
+                void track.offsetWidth;
+                track.style.transition = '';
+            }
+
+            slides.forEach((slide, i) => {
+                slide.classList.toggle('is-active', i === index);
+            });
             dotsContainer.querySelectorAll('.past-retreat-slider-dot').forEach((dot, i) => {
-                dot.classList.toggle('active', i === clamped);
+                dot.classList.toggle('active', i === index);
             });
-            if (counter) counter.textContent = `${clamped + 1} / ${slides.length}`;
+            if (counter) counter.textContent = `${index + 1} / ${slides.length}`;
+            if (prevBtn) prevBtn.disabled = index <= 0;
+            if (nextBtn) nextBtn.disabled = index >= maxIndex;
         };
 
-        const renderDots = () => {
-            if (dotsRendered) return;
-            dotsRendered = true;
-            dotsContainer.innerHTML = '';
-            slides.forEach((_, idx) => {
-                const dotBtn = document.createElement('button');
-                dotBtn.type = 'button';
-                dotBtn.className = 'past-retreat-slider-dot';
-                dotBtn.setAttribute('aria-label', `Photo ${idx + 1}`);
-                dotBtn.addEventListener('click', () => setActiveSlide(idx));
-                dotsContainer.appendChild(dotBtn);
-            });
+        dotsContainer.innerHTML = '';
+        slides.forEach((_, idx) => {
+            const dotBtn = document.createElement('button');
+            dotBtn.type = 'button';
+            dotBtn.className = 'past-retreat-slider-dot';
+            dotBtn.setAttribute('aria-label', `Go to photo ${idx + 1}`);
+            dotBtn.addEventListener('click', () => goTo(idx));
+            dotsContainer.appendChild(dotBtn);
+        });
+
+        prevBtn?.addEventListener('click', () => goTo(index - 1));
+        nextBtn?.addEventListener('click', () => goTo(index + 1));
+
+        const onPointerDown = (event) => {
+            if (event.pointerType === 'mouse' && event.button !== 0) return;
+            isDragging = true;
+            dragStartX = event.clientX;
+            dragDelta = 0;
+            viewport.classList.add('is-dragging');
+            viewport.setPointerCapture?.(event.pointerId);
         };
 
-        renderDots();
-        setActiveSlide(0);
-        prevBtn?.addEventListener('click', () => setActiveSlide(activeIndex - 1));
-        nextBtn?.addEventListener('click', () => setActiveSlide(activeIndex + 1));
+        const onPointerMove = (event) => {
+            if (!isDragging) return;
+            dragDelta = event.clientX - dragStartX;
+            const base = index * getSlideStep();
+            track.style.transform = `translate3d(${-base + dragDelta}px, 0, 0)`;
+        };
+
+        const onPointerUp = () => {
+            if (!isDragging) return;
+            isDragging = false;
+            viewport.classList.remove('is-dragging');
+            const threshold = getSlideStep() * 0.2;
+            if (dragDelta < -threshold) goTo(index + 1);
+            else if (dragDelta > threshold) goTo(index - 1);
+            else goTo(index);
+            dragDelta = 0;
+        };
+
+        viewport.addEventListener('pointerdown', onPointerDown);
+        viewport.addEventListener('pointermove', onPointerMove);
+        viewport.addEventListener('pointerup', onPointerUp);
+        viewport.addEventListener('pointercancel', onPointerUp);
+        viewport.addEventListener('pointerleave', () => {
+            if (isDragging) onPointerUp();
+        });
+
+        window.addEventListener('resize', () => goTo(index, { animate: false }));
+        goTo(0, { animate: false });
     };
 
     document.querySelectorAll('[data-past-retreat-slider]').forEach(initPastRetreatSlider);

@@ -1634,11 +1634,11 @@ img { max-width: 100%; display: block; }
 .past-retreat-edition-header {
     padding: 22px 28px 18px;
     border-bottom: 1px solid var(--border);
-    background: var(--red-tint);
+    background: var(--off-white);
 }
 
 .past-retreat-edition-header h4 {
-    color: var(--red);
+    color: var(--ink);
     font-size: 1.3rem;
     margin-bottom: 4px;
     font-family: var(--font-heading);
@@ -1651,37 +1651,58 @@ img { max-width: 100%; display: block; }
 }
 
 .past-retreat-slider {
-    padding: 0 12px 16px;
+    --slide-gap: 14px;
+    --slides-visible: 2.35;
+    padding: 16px 12px 18px;
 }
 
 .past-retreat-slider-viewport {
     position: relative;
     overflow: hidden;
     border-radius: var(--radius);
-    aspect-ratio: 16 / 10;
-    max-height: 480px;
-    background: var(--off-white);
-    border: 1px solid var(--border);
+    background: transparent;
+    border: none;
+    touch-action: pan-y;
+    cursor: grab;
+}
+
+.past-retreat-slider-viewport.is-dragging {
+    cursor: grabbing;
+}
+
+.past-retreat-slider-track {
+    display: flex;
+    gap: var(--slide-gap);
+    will-change: transform;
+    transition: transform 0.55s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.past-retreat-slider-viewport.is-dragging .past-retreat-slider-track {
+    transition: none;
 }
 
 .past-retreat-slide {
-    position: absolute;
-    inset: 0;
-    opacity: 0;
-    transition: opacity 0.45s ease;
-    pointer-events: none;
-}
-
-.past-retreat-slide.is-active {
+    position: relative;
+    flex: 0 0 calc((100% - (var(--slide-gap) * (var(--slides-visible) - 1))) / var(--slides-visible));
+    aspect-ratio: 4 / 3;
+    overflow: hidden;
+    border-radius: var(--radius);
+    border: 1px solid var(--border);
+    background: var(--off-white);
     opacity: 1;
     pointer-events: auto;
-    z-index: 1;
 }
 
 .past-retreat-slide img {
     width: 100%;
     height: 100%;
     object-fit: cover;
+    display: block;
+    transition: transform 0.55s ease;
+}
+
+.past-retreat-slide:hover img {
+    transform: scale(1.03);
 }
 
 .past-retreat-slider-controls {
@@ -1689,7 +1710,7 @@ img { max-width: 100%; display: block; }
     align-items: center;
     justify-content: space-between;
     gap: 16px;
-    margin-top: 14px;
+    margin-top: 16px;
     padding: 0 4px;
 }
 
@@ -1733,22 +1754,46 @@ img { max-width: 100%; display: block; }
 .past-retreat-slider-btn {
     width: 44px;
     height: 44px;
-    border-radius: 50%;
+    border-radius: var(--radius);
     display: flex;
     align-items: center;
     justify-content: center;
     cursor: pointer;
     background: var(--white);
     border: 1px solid var(--border-strong);
-    color: var(--red);
+    color: var(--ink);
     transition: var(--transition);
     flex-shrink: 0;
 }
 
-.past-retreat-slider-btn:hover {
+.past-retreat-slider-btn:hover:not(:disabled) {
     background: var(--red);
     color: var(--white);
     border-color: var(--red);
+}
+
+.past-retreat-slider-btn:disabled {
+    opacity: 0.35;
+    cursor: not-allowed;
+}
+
+@media (min-width: 900px) {
+    .past-retreat-slider {
+        --slides-visible: 3.2;
+        --slide-gap: 16px;
+    }
+}
+
+@media (max-width: 640px) {
+    .past-retreat-slider {
+        --slides-visible: 1.15;
+        --slide-gap: 10px;
+        padding: 12px 10px 14px;
+    }
+
+    .past-retreat-slide {
+        aspect-ratio: 5 / 4;
+    }
 }
 
 /* ── Lead Capture ── */
@@ -2292,7 +2337,8 @@ footer {
 @media (prefers-reduced-motion: reduce) {
     .animate-on-scroll.fade-in { animation: none; opacity: 1; }
     .hero-scarcity i { animation: none; }
-    .past-retreat-slide { transition: none; }
+    .past-retreat-slider-track { transition: none; }
+    .past-retreat-slide img { transition: none; }
     .sticky-cta { transition: none; }
     .hero-video {
         display: none;
