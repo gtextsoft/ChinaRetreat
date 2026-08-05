@@ -10,7 +10,7 @@
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Source+Sans+3:ital,wght@0,400;0,600;0,700;1,400&family=Noto+Serif+SC:wght@400;600&display=swap"
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=IBM+Plex+Serif:ital,wght@0,500;0,600;0,700;1,500&display=swap"
         rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="style.css">
@@ -32,7 +32,10 @@
     <!-- Navigation -->
     <nav class="navbar">
         <div class="container nav-container">
-            <a href="#" class="logo">China<span>Retreat</span></a>
+            <a href="#" class="logo">
+                <span class="logo-mark">China<span>Retreat</span></span>
+                <span class="logo-sub">Stephen Akintayo Foundation</span>
+            </a>
             <div class="mobile-menu-btn" aria-label="Toggle menu">
                 <i class="fas fa-bars"></i>
             </div>
@@ -40,12 +43,12 @@
                 <li><a href="#outcomes">Outcomes</a></li>
                 <li><a href="#host">Host</a></li>
                 <li><a href="#itinerary">Itinerary</a></li>
-                <li><a href="#pricing">Pricing</a></li>
+                <li><a href="#pricing">Packages</a></li>
                 <li><a href="#faq">FAQ</a></li>
                 <li>
                     <a href="#pricing"
                         class="btn btn-primary btn-nav js-cta-primary"
-                        data-cta="nav">Reserve My Seat</a>
+                        data-cta="nav">Reserve Seat</a>
                 </li>
             </ul>
         </div>
@@ -63,9 +66,22 @@
             </div>
             <div class="container hero-inner">
                 <div class="hero-content">
-                    <p class="hero-date eyebrow-pill"><i class="fas fa-calendar-alt" aria-hidden="true"></i> 13th – 22nd Oct 2026</p>
-                    <p class="hero-subhead">7 days · Canton Fair + Great Wall + billionaire mentorship · Lagos → Beijing → Guangzhou · Hosted by Dr. Stephen Akintayo</p>
-                    <h1>Walk Into China With Billionaire-Level Access and Walk Out With Suppliers, Deals, and a Network That Compounds for Years</h1>
+                    <p class="hero-brand">China Retreat</p>
+                    <p class="hero-kicker">Executive Trade Tour 2026 · Hosted by Dr. Stephen Akintayo</p>
+                    <h1>Walk Into China With Billionaire-Level Access &amp; Leave With Suppliers, Deals, &amp; a Network That Compounds</h1>
+                    <p class="hero-subhead">Canton Fair access, Great Wall immersion, and structured mentorship — fully handled from Lagos and back.</p>
+
+                    <nav class="hero-route" aria-label="Tour route">
+                        <span>Lagos</span>
+                        <i class="fas fa-plane" aria-hidden="true"></i>
+                        <span>Beijing</span>
+                        <i class="fas fa-train" aria-hidden="true"></i>
+                        <span>Guangzhou</span>
+                        <i class="fas fa-plane" aria-hidden="true"></i>
+                        <span>Lagos</span>
+                    </nav>
+
+                    <p class="hero-date"><i class="fas fa-calendar-alt" aria-hidden="true"></i> 13 – 22 October 2026 · 7 days · 30 seats</p>
 
                     <div class="hero-cta-block">
                         <a href="#pricing"
@@ -251,10 +267,10 @@
         <section id="itinerary" class="itinerary section-padding section--alt">
             <div class="container">
                 <div class="text-center animate-on-scroll">
-                    <div class="eyebrow-pill">Your Week in China</div>
+                    <div class="eyebrow-pill">Official Itinerary</div>
                     <br>
                     <h2 class="section-title">7 Days. Two Cities. <span>One Unfair Advantage.</span></h2>
-                    <p class="section-lead">13th – 22nd Oct 2026 · Lagos → Beijing → Guangzhou → Lagos</p>
+                    <p class="section-lead">13 – 22 October 2026 · Lagos → Beijing → Guangzhou → Lagos</p>
                 </div>
 
                 <div class="itinerary-days">
@@ -350,19 +366,19 @@
         <section id="pricing" class="pricing section-padding section--white">
             <div class="container">
                 <div class="text-center animate-on-scroll">
-                    <div class="eyebrow-pill eyebrow-pill--dark">Your Investment</div>
+                    <div class="eyebrow-pill eyebrow-pill--dark">Tour Packages</div>
                     <br>
                     <h2 class="section-title section-title--dark">Everything Included. <span>Nothing Left to Chance.</span></h2>
                 </div>
 
                 <div class="pricing-legend animate-on-scroll">
-                    <p><strong>China travel</strong> — all-inclusive from Lagos · <strong>Training</strong> — sessions &amp; speakers without the trip</p>
+                    <p><strong>China travel</strong> — all-inclusive from Lagos · <strong>Training</strong> — sessions &amp; speakers without the trip · Pay in USD or Naira</p>
                 </div>
 
                 <div class="pricing-grid pricing-grid--four animate-on-scroll">
                     <div class="pricing-card featured">
                         <div class="pricing-badge">Most Popular · Best Value</div>
-                        <p class="package-category">✈️ Travelling to China</p>
+                        <p class="package-category">China Travel Package</p>
                         <h3 class="package-name">Shared Room</h3>
                         <p class="package-dates">13th – 22nd Oct, 2026</p>
                         <div class="package-prices" aria-label="Shared Room pricing">
@@ -415,7 +431,7 @@
 
                     <div class="pricing-card">
                         <div class="pricing-badge pricing-badge--muted">For Privacy</div>
-                        <p class="package-category">✈️ Travelling to China</p>
+                        <p class="package-category">China Travel Package</p>
                         <h3 class="package-name">Private Room</h3>
                         <p class="package-dates">13th – 22nd Oct, 2026</p>
                         <div class="package-prices" aria-label="Private Room pricing">
@@ -457,7 +473,7 @@
                     </div>
 
                     <div class="pricing-card">
-                        <p class="package-category">Training only</p>
+                        <p class="package-category">Training Package</p>
                         <h3 class="package-name">Training + Sessions</h3>
                         <div class="package-prices" aria-label="Training + Sessions pricing">
                             <div class="package-price-block">
@@ -499,7 +515,7 @@
                     </div>
 
                     <div class="pricing-card">
-                        <p class="package-category">Training + Tour</p>
+                        <p class="package-category">Training Package</p>
                         <h3 class="package-name">Training + Sessions + Tour</h3>
                         <div class="package-prices" aria-label="Training + Sessions + Tour pricing">
                             <div class="package-price-block">
@@ -574,8 +590,8 @@
                         <li>
                             <i class="fas fa-lock"></i>
                             <div>
-                                <strong>Secure Stripe checkout</strong>
-                                <p>Encrypted payment. Instant email confirmation. Dedicated onboarding call after booking.</p>
+                                <strong>Secure checkout</strong>
+                                <p>Pay in USD via Stripe or Naira via Paystack. Instant confirmation and dedicated onboarding after booking.</p>
                             </div>
                         </li>
                         <li>
@@ -743,7 +759,7 @@
         <section id="faq" class="faq section-padding section--white">
             <div class="container">
                 <div class="text-center animate-on-scroll">
-                    <div class="eyebrow-pill eyebrow-pill--dark">Objections Answered</div>
+                    <div class="eyebrow-pill eyebrow-pill--dark">Common Questions</div>
                     <h2 class="section-title section-title--dark">Frequently Asked <span>Questions</span></h2>
                 </div>
 
@@ -758,12 +774,11 @@
                     </div>
                     <div class="faq-item">
                         <div class="faq-question">Do I need a visa? Is China safe? <i class="fas fa-chevron-down"></i></div>
-                        <div class="faq-answer">Yes, most participants need a Chinese visa — it's included in your package and handled by our team. You'll have airport gree
-                            ters, interpreters, curated hotels, and group transport throughout. Our operations team has delivered retreats across Asia and the Middle East for 8+ years.</div>
+                        <div class="faq-answer">Yes, most participants need a Chinese visa — it's included in your package and handled by our team. You'll have airport greeters, interpreters, curated hotels, and group transport throughout. Our operations team has delivered retreats across Asia and the Middle East for 8+ years.</div>
                     </div>
                     <div class="faq-item">
                         <div class="faq-question">How do I secure my seat? <i class="fas fa-chevron-down"></i></div>
-                        <div class="faq-answer">Choose your package under Pricing, complete secure Stripe checkout (or WhatsApp for Training), and enter code <strong>CHINAA</strong> for the Shared Room early-bird rate of <strong>$9,000</strong> (₦12M). Private Room is $11,000 (₦15M). Training + Sessions is $2,000; Training + Tour is $3,000. Early bird for Shared closes 31 July 2026 — then it returns to $10,000.</div>
+                        <div class="faq-answer">Choose your package under Packages, complete secure checkout in USD (Stripe) or Naira (Paystack), and enter code <strong>CHINAA</strong> for the Shared Room early-bird rate of <strong>$9,000</strong> (₦12M). Private Room is $11,000 (₦15M). Training + Sessions is $2,000; Training + Tour is $3,000. Early bird for Shared closes 31 July 2026 — then it returns to $10,000.</div>
                     </div>
                     <div class="faq-item">
                         <div class="faq-question">What's the refund and transfer policy? <i class="fas fa-chevron-down"></i></div>
