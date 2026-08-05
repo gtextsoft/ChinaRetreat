@@ -9,13 +9,13 @@ document.addEventListener('DOMContentLoaded', () => {
     // ── Funnel config (single source of truth) ──
     const FUNNEL = {
         couponCode: 'CHINAA',
-        discountedPrice: 10000,
-        fullPrice: 12000,
+        discountedPrice: 9000,
+        fullPrice: 10000,
         totalDiscountSeats: 30,
         seatsRemaining: 10, // Update manually or wire to backend
         registrationDeadline: new Date('2026-07-31T23:59:59'),
-        stripeExecutive: 'https://buy.stripe.com/7sY28sbJagib54yd3uew80d',
-        stripeElite: 'https://buy.stripe.com/00w28saF6c1V40ubZqew80c'
+        stripeShared: 'https://buy.stripe.com/7sY28sbJagib54yd3uew80d',
+        stripePrivate: 'https://buy.stripe.com/00w28saF6c1V40ubZqew80c'
     };
 
     const seatSelectors = [
@@ -327,6 +327,85 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
+    // ── Exit intent package carousel (loops all packages) ──
+    const exitSlider = document.querySelector('[data-exit-package-slider]');
+    let exitSlideIndex = 0;
+    let exitAutoTimer = null;
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    const initExitPackageSlider = () => {
+        if (!exitSlider) return null;
+        const slides = Array.from(exitSlider.querySelectorAll('.exit-intent-slide'));
+        const prevBtn = exitSlider.querySelector('.exit-intent-carousel-prev');
+        const nextBtn = exitSlider.querySelector('.exit-intent-carousel-next');
+        const dotsContainer = exitSlider.querySelector('.exit-intent-carousel-dots');
+        if (!slides.length || !dotsContainer) return null;
+
+        dotsContainer.innerHTML = '';
+        slides.forEach((_, idx) => {
+            const dotBtn = document.createElement('button');
+            dotBtn.type = 'button';
+            dotBtn.className = 'exit-intent-carousel-dot';
+            dotBtn.setAttribute('aria-label', `Package ${idx + 1}`);
+            dotBtn.addEventListener('click', () => {
+                setExitSlide(idx);
+                restartExitAutoLoop();
+            });
+            dotsContainer.appendChild(dotBtn);
+        });
+
+        const setExitSlide = (index) => {
+            exitSlideIndex = (index + slides.length) % slides.length;
+            slides.forEach((slide, i) => slide.classList.toggle('is-active', i === exitSlideIndex));
+            dotsContainer.querySelectorAll('.exit-intent-carousel-dot').forEach((dot, i) => {
+                dot.classList.toggle('active', i === exitSlideIndex);
+            });
+        };
+
+        const stopExitAutoLoop = () => {
+            clearInterval(exitAutoTimer);
+            exitAutoTimer = null;
+        };
+
+        const restartExitAutoLoop = () => {
+            stopExitAutoLoop();
+            if (reduceMotion) return;
+            exitAutoTimer = setInterval(() => setExitSlide(exitSlideIndex + 1), 4000);
+        };
+
+        prevBtn?.addEventListener('click', () => {
+            setExitSlide(exitSlideIndex - 1);
+            restartExitAutoLoop();
+        });
+        nextBtn?.addEventListener('click', () => {
+            setExitSlide(exitSlideIndex + 1);
+            restartExitAutoLoop();
+        });
+
+        // Pause auto-loop while user interacts with pay buttons
+        exitSlider.addEventListener('pointerenter', stopExitAutoLoop);
+        exitSlider.addEventListener('pointerleave', restartExitAutoLoop);
+
+        let touchStartX = 0;
+        exitSlider.addEventListener('touchstart', (e) => {
+            touchStartX = e.changedTouches[0].screenX;
+            stopExitAutoLoop();
+        }, { passive: true });
+        exitSlider.addEventListener('touchend', (e) => {
+            const delta = e.changedTouches[0].screenX - touchStartX;
+            if (Math.abs(delta) > 40) {
+                setExitSlide(exitSlideIndex + (delta < 0 ? 1 : -1));
+            }
+            restartExitAutoLoop();
+        }, { passive: true });
+
+        setExitSlide(0);
+
+        return { setExitSlide, restartExitAutoLoop, stopExitAutoLoop };
+    };
+
+    const exitCarousel = initExitPackageSlider();
+
     // ── Exit intent ──
     const exitIntent = document.getElementById('exit-intent');
     let exitShown = false;
@@ -336,6 +415,8 @@ document.addEventListener('DOMContentLoaded', () => {
         exitShown = true;
         exitIntent.classList.add('is-visible');
         exitIntent.setAttribute('aria-hidden', 'false');
+        exitCarousel?.setExitSlide(0);
+        exitCarousel?.restartExitAutoLoop();
         trackEvent('exit_intent_shown', { event_category: 'engagement' });
     };
 
@@ -343,13 +424,14 @@ document.addEventListener('DOMContentLoaded', () => {
         if (!exitIntent) return;
         exitIntent.classList.remove('is-visible');
         exitIntent.setAttribute('aria-hidden', 'true');
+        exitCarousel?.stopExitAutoLoop();
     };
 
     document.querySelectorAll('[data-close-exit]').forEach(el => {
         el.addEventListener('click', hideExitIntent);
     });
 
-    if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    if (!reduceMotion) {
         document.addEventListener('mouseout', (e) => {
             if (e.clientY <= 0 && e.relatedTarget == null) showExitIntent();
         });
