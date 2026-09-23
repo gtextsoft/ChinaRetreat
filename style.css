@@ -1132,6 +1132,26 @@ img { max-width: 100%; display: block; }
     order: 2;
     opacity: 0.72;
     background: #f8f7f5;
+    overflow: hidden;
+}
+
+.pricing-card--sold-out::after {
+    content: "SOLD OUT";
+    position: absolute;
+    top: 46%;
+    left: -12%;
+    width: 124%;
+    padding: 8px 0;
+    background: rgba(190, 33, 42, 0.9);
+    color: var(--white);
+    font-size: 0.72rem;
+    font-weight: 800;
+    letter-spacing: 0.2em;
+    line-height: 1;
+    text-align: center;
+    transform: rotate(-8deg);
+    pointer-events: none;
+    z-index: 2;
 }
 
 .pricing-card--sold-out:hover {
