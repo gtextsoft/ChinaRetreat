@@ -87,7 +87,7 @@
                             data-cta="hero">View Packages &amp; Reserve</a>
                         <p class="hero-scarcity" id="hero-scarcity-line">
                             <i class="fas fa-circle" aria-hidden="true"></i>
-                            Only <strong id="seats-left-hero">10</strong> of 30 early-bird seats left · Shared from <strong>$9,000</strong>
+                            China travel tickets are sold out · Training packages from <strong>$2,000</strong>
                         </p>
                     </div>
 
@@ -375,8 +375,8 @@
                 </div>
 
                 <div class="pricing-grid pricing-grid--four animate-on-scroll">
-                    <div class="pricing-card featured">
-                        <div class="pricing-badge">Most Popular · Best Value</div>
+                    <div class="pricing-card pricing-card--sold-out" aria-disabled="true">
+                        <div class="pricing-badge pricing-badge--sold-out">Out of stock</div>
                         <p class="package-category">China Travel Package</p>
                         <h3 class="package-name">Shared Room</h3>
                         <p class="package-dates">13th – 22nd Oct, 2026</p>
@@ -404,31 +404,23 @@
                             <li><i class="fas fa-check"></i> Live sessions with Dr. Stephen Akintayo, Dr. Cosmas Maduka &amp; Dr. Stella Immanuel</li>
                         </ul>
                         <div class="package-pay">
-                            <p class="package-pay-label">Choose payment currency</p>
+                            <p class="package-pay-label">This ticket is currently unavailable</p>
                             <div class="package-pay-actions">
-                                <a href="https://buy.stripe.com/cNi7sM8wY8PJ9kOe7yew80u"
-                                    class="btn btn-primary btn-pay js-cta-primary"
-                                    data-cta="pricing-shared-usd"
-                                    target="_blank"
-                                    rel="noopener noreferrer">
+                                <button type="button" class="btn btn-primary btn-pay btn-pay--disabled" disabled aria-disabled="true">
                                     <span class="btn-pay-currency">Pay in USD</span>
                                     <span class="btn-pay-amount">$9,000</span>
-                                </a>
-                                <a href="https://paystack.shop/pay/48hokt2ggv"
-                                    class="btn btn-pay btn-pay--ngn js-cta-secondary"
-                                    data-cta="pricing-shared-ngn"
-                                    target="_blank"
-                                    rel="noopener noreferrer">
+                                </button>
+                                <button type="button" class="btn btn-pay btn-pay--ngn btn-pay--disabled" disabled aria-disabled="true">
                                     <span class="btn-pay-currency">Pay in Naira</span>
                                     <span class="btn-pay-amount">₦12,000,000</span>
-                                </a>
+                                </button>
                             </div>
                         </div>
-                        <p class="package-scarcity"><span id="seats-left-pricing">10</span> of 30 early-bird seats · +$1,000 after 31 July</p>
+                        <p class="package-sold-out-note">Shared Room tickets are sold out.</p>
                     </div>
 
-                    <div class="pricing-card">
-                        <div class="pricing-badge pricing-badge--muted">For Privacy</div>
+                    <div class="pricing-card pricing-card--sold-out" aria-disabled="true">
+                        <div class="pricing-badge pricing-badge--sold-out">Out of stock</div>
                         <p class="package-category">China Travel Package</p>
                         <h3 class="package-name">Private Room</h3>
                         <p class="package-dates">13th – 22nd Oct, 2026</p>
@@ -448,39 +440,33 @@
                             <li><i class="fas fa-check"></i> Private single-occupancy room — no sharing</li>
                         </ul>
                         <div class="package-pay">
-                            <p class="package-pay-label">Choose payment currency</p>
+                            <p class="package-pay-label">This ticket is currently unavailable</p>
                             <div class="package-pay-actions">
-                                <a href="https://buy.stripe.com/3cI28s3cEgib68CfbCew80v"
-                                    class="btn btn-primary btn-pay js-cta-primary"
-                                    data-cta="pricing-private-usd"
-                                    target="_blank"
-                                    rel="noopener noreferrer">
+                                <button type="button" class="btn btn-primary btn-pay btn-pay--disabled" disabled aria-disabled="true">
                                     <span class="btn-pay-currency">Pay in USD</span>
                                     <span class="btn-pay-amount">$11,000</span>
-                                </a>
-                                <a href="https://paystack.shop/pay/b49jbh840u"
-                                    class="btn btn-pay btn-pay--ngn js-cta-secondary"
-                                    data-cta="pricing-private-ngn"
-                                    target="_blank"
-                                    rel="noopener noreferrer">
+                                </button>
+                                <button type="button" class="btn btn-pay btn-pay--ngn btn-pay--disabled" disabled aria-disabled="true">
                                     <span class="btn-pay-currency">Pay in Naira</span>
                                     <span class="btn-pay-amount">₦15,000,000</span>
-                                </a>
+                                </button>
                             </div>
                         </div>
+                        <p class="package-sold-out-note">Private Room tickets are sold out.</p>
                     </div>
 
-                    <div class="pricing-card">
+                    <div class="pricing-card pricing-card--available">
                         <p class="package-category">Training Package</p>
-                        <h3 class="package-name">Training + Sessions</h3>
-                        <div class="package-prices" aria-label="Training + Sessions pricing">
+                        <h3 class="package-name">Training Session</h3>
+                        <div class="package-prices" aria-label="Training Session pricing">
                             <div class="package-price-block">
                                 <span class="package-price-label">USD</span>
+                                <span class="package-price-original">$3,500</span>
                                 <span class="package-price">$2,000</span>
                             </div>
                             <div class="package-price-block package-price-block--ngn">
                                 <span class="package-price-label">NGN</span>
-                                <span class="package-price package-price--ngn">₦2,800,000</span>
+                                <span class="package-price package-price--ngn">₦2,600,000</span>
                             </div>
                         </div>
                         <p class="package-price-note">Get the transformation without the travel.</p>
@@ -506,23 +492,24 @@
                                     target="_blank"
                                     rel="noopener noreferrer">
                                     <span class="btn-pay-currency">Pay in Naira</span>
-                                    <span class="btn-pay-amount">₦2,800,000</span>
+                                    <span class="btn-pay-amount">₦2,600,000</span>
                                 </a>
                             </div>
                         </div>
                     </div>
 
-                    <div class="pricing-card">
+                    <div class="pricing-card pricing-card--available">
                         <p class="package-category">Training Package</p>
-                        <h3 class="package-name">Training + Sessions + Tour</h3>
-                        <div class="package-prices" aria-label="Training + Sessions + Tour pricing">
+                        <h3 class="package-name">Training Session + Tour</h3>
+                        <div class="package-prices" aria-label="Training Session + Tour pricing">
                             <div class="package-price-block">
                                 <span class="package-price-label">USD</span>
-                                <span class="package-price">$3,000</span>
+                                <span class="package-price-original">$5,000</span>
+                                <span class="package-price">$3,500</span>
                             </div>
                             <div class="package-price-block package-price-block--ngn">
                                 <span class="package-price-label">NGN</span>
-                                <span class="package-price package-price--ngn">₦4,200,000</span>
+                                <span class="package-price package-price--ngn">₦4,550,000</span>
                             </div>
                         </div>
                         <p class="package-price-note">Everything in Training, plus a guided tour experience.</p>
@@ -534,13 +521,13 @@
                         <div class="package-pay">
                             <p class="package-pay-label">Choose payment currency</p>
                             <div class="package-pay-actions">
-                                <a href="https://buy.stripe.com/fZu3cw9B2fe77cG2oQew80x"
+                                <a href="https://buy.stripe.com/4gM9AUcNegib68C0gIew80S"
                                     class="btn btn-primary btn-pay js-cta-primary"
                                     data-cta="pricing-training-tour-usd"
                                     target="_blank"
                                     rel="noopener noreferrer">
                                     <span class="btn-pay-currency">Pay in USD</span>
-                                    <span class="btn-pay-amount">$3,000</span>
+                                    <span class="btn-pay-amount">$3,500</span>
                                 </a>
                                 <a href="https://paystack.shop/pay/29kgeehvmy"
                                     class="btn btn-pay btn-pay--ngn js-cta-secondary"
@@ -548,7 +535,7 @@
                                     target="_blank"
                                     rel="noopener noreferrer">
                                     <span class="btn-pay-currency">Pay in Naira</span>
-                                    <span class="btn-pay-amount">₦4,200,000</span>
+                                    <span class="btn-pay-amount">₦4,550,000</span>
                                 </a>
                             </div>
                         </div>
@@ -605,13 +592,13 @@
         <section class="urgency section-padding section--red">
             <div class="container urgency-inner animate-on-scroll">
                 <div class="urgency-copy">
-                    <h2>Early Bird Shared Room — $9,000 Until 31 July.</h2>
-                    <p><strong>13th – 22nd Oct 2026</strong> · Early bird registration closes <strong>31 July 2026</strong>. After that, the Shared Room price returns to <strong>$10,000</strong> — no extensions.</p>
+                    <h2>Training Packages Available From $2,000.</h2>
+                    <p><strong>13th – 22nd Oct 2026</strong> · Shared Room and Private Room tickets are out of stock. Secure an available training package while registration remains open.</p>
                 </div>
                 <div class="urgency-metrics">
                     <div class="urgency-metric">
-                        <span class="urgency-metric-value" id="seats-left-urgency">10</span>
-                        <span class="urgency-metric-label">Seats left at $9,000</span>
+                        <span class="urgency-metric-value">2</span>
+                        <span class="urgency-metric-label">Training packages available</span>
                     </div>
                     <div class="urgency-metric">
                         <span class="urgency-metric-value" id="countdown-days">—</span>
@@ -777,7 +764,7 @@
                     </div>
                     <div class="faq-item">
                         <div class="faq-question">How do I secure my seat? <i class="fas fa-chevron-down"></i></div>
-                        <div class="faq-answer">Choose your package under Packages and complete secure checkout in USD (Stripe) or Naira (Paystack). Shared Room early-bird is <strong>$9,000</strong> (₦12M). Private Room is $11,000 (₦15M). Training + Sessions is $2,000; Training + Tour is $3,000. Early bird for Shared closes 31 July 2026 — then it returns to $10,000.</div>
+                        <div class="faq-answer">Choose an available training package under Packages and complete secure checkout in USD (Stripe) or Naira (Paystack). Shared Room and Private Room tickets are currently out of stock. Training Session is $2,000; Training Session + Tour is $3,500.</div>
                     </div>
                     <div class="faq-item">
                         <div class="faq-question">What's the refund and transfer policy? <i class="fas fa-chevron-down"></i></div>
@@ -789,7 +776,7 @@
                     </div>
                     <div class="faq-item">
                         <div class="faq-question">What's exactly included? <i class="fas fa-chevron-down"></i></div>
-                        <div class="faq-answer"><strong>Shared Room ($9,000 / ₦12M):</strong> economy return flights from Lagos, Chinese visa, shared/double hotel, Canton Fair access, seminar &amp; training, guided tours, networking, group airport transfers, and live sessions with Dr. Stephen Akintayo, Dr. Cosmas Maduka &amp; Dr. Stella Immanuel. <strong>Private Room ($11,000 / ₦15M):</strong> everything in Shared plus a private single-occupancy room. <strong>Training packages:</strong> sessions and speakers without China travel ($2,000), or add a guided tour ($3,000).</div>
+                        <div class="faq-answer"><strong>Shared Room ($9,000 / ₦12M):</strong> economy return flights from Lagos, Chinese visa, shared/double hotel, Canton Fair access, seminar &amp; training, guided tours, networking, group airport transfers, and live sessions with Dr. Stephen Akintayo, Dr. Cosmas Maduka &amp; Dr. Stella Immanuel. <strong>Private Room ($11,000 / ₦15M):</strong> everything in Shared plus a private single-occupancy room. <strong>Training packages:</strong> sessions and speakers without China travel ($2,000), or add a guided tour ($3,500).</div>
                     </div>
                 </div>
             </div>
@@ -800,7 +787,7 @@
             <div class="container cta-final-inner">
                 <div class="cta-final-copy">
                     <h2 id="cta-final-heading">Your Seat in China Is One Click Away</h2>
-                    <p><strong>13th – 22nd Oct 2026.</strong> 7 days. Canton Fair access. Guangzhou immersion. Live sessions with Dr. Stephen Akintayo, Dr. Cosmas Maduka &amp; Dr. Stella Immanuel. <strong id="seats-left-final">10</strong> of 30 discounted Shared seats at $9,000 — then $10,000. Early bird closes 31 July 2026.</p>
+                    <p><strong>13th – 22nd Oct 2026.</strong> 7 days. Canton Fair access. Guangzhou immersion. Live sessions with Dr. Stephen Akintayo, Dr. Cosmas Maduka &amp; Dr. Stella Immanuel. Training packages remain available from <strong>$2,000</strong>.</p>
                 </div>
                 <a href="#pricing"
                     class="btn btn-primary btn-cta-final js-cta-primary"
@@ -815,7 +802,7 @@
         <div class="container sticky-cta-inner">
             <div class="sticky-cta-text">
                 <span class="sticky-cta-title">China Retreat 2026</span>
-                <span class="sticky-cta-meta">13th – 22nd Oct · <strong id="seats-left-sticky">10</strong> of 30 seats @ $9,000</span>
+                <span class="sticky-cta-meta">13th – 22nd Oct · Training packages from $2,000</span>
             </div>
             <a href="#pricing"
                 class="btn btn-primary btn-sticky-cta js-cta-primary"
@@ -828,14 +815,14 @@
         <div class="exit-intent-backdrop" data-close-exit></div>
         <div class="exit-intent-card">
             <button type="button" class="exit-intent-close" data-close-exit aria-label="Close">&times;</button>
-            <h3 id="exit-intent-title">Wait — <span id="seats-left-exit">10</span> of 30 Discounted Shared Seats Left</h3>
+            <h3 id="exit-intent-title">Available training packages from $2,000</h3>
             <p class="exit-intent-lead">Swipe or wait — all packages loop here:</p>
 
             <div class="exit-intent-carousel" data-exit-package-slider aria-label="All payment packages">
                 <div class="exit-intent-carousel-viewport">
-                    <article class="exit-intent-package exit-intent-slide is-active exit-intent-package--featured">
+                    <article class="exit-intent-package exit-intent-slide exit-intent-package--sold-out">
                         <div class="exit-intent-package-head">
-                            <span class="exit-intent-package-label">1 / 4 · Shared Room · Most Popular</span>
+                            <span class="exit-intent-package-label">1 / 4 · Shared Room · Out of stock</span>
                             <div class="exit-intent-pricing" aria-label="Shared Room pricing">
                                 <span class="exit-intent-price-was">$10,000</span>
                                 <span class="exit-intent-price-now">$9,000</span>
@@ -843,60 +830,45 @@
                             <p class="exit-intent-package-note">Early bird $9,000 · or ₦12,000,000 · China travel</p>
                         </div>
                         <div class="package-pay-actions">
-                            <a href="https://buy.stripe.com/cNi7sM8wY8PJ9kOe7yew80u"
-                                class="btn btn-primary btn-pay js-cta-primary"
-                                data-cta="exit-intent-shared-usd"
-                                target="_blank"
-                                rel="noopener noreferrer">
+                            <button type="button" class="btn btn-primary btn-pay btn-pay--disabled" disabled aria-disabled="true">
                                 <span class="btn-pay-currency">Pay in USD</span>
                                 <span class="btn-pay-amount">$9,000</span>
-                            </a>
-                            <a href="https://paystack.shop/pay/48hokt2ggv"
-                                class="btn btn-pay btn-pay--ngn js-cta-secondary"
-                                data-cta="exit-intent-shared-ngn"
-                                target="_blank"
-                                rel="noopener noreferrer">
+                            </button>
+                            <button type="button" class="btn btn-pay btn-pay--ngn btn-pay--disabled" disabled aria-disabled="true">
                                 <span class="btn-pay-currency">Pay in Naira</span>
                                 <span class="btn-pay-amount">₦12,000,000</span>
-                            </a>
+                            </button>
                         </div>
                     </article>
 
-                    <article class="exit-intent-package exit-intent-slide">
+                    <article class="exit-intent-package exit-intent-slide exit-intent-package--sold-out">
                         <div class="exit-intent-package-head">
-                            <span class="exit-intent-package-label">2 / 4 · Private Room</span>
+                            <span class="exit-intent-package-label">2 / 4 · Private Room · Out of stock</span>
                             <div class="exit-intent-pricing exit-intent-pricing--single" aria-label="Private Room pricing">
                                 <span class="exit-intent-price-now">$11,000</span>
                             </div>
                             <p class="exit-intent-package-note">or ₦15,000,000 · private single room · China travel</p>
                         </div>
                         <div class="package-pay-actions">
-                            <a href="https://buy.stripe.com/3cI28s3cEgib68CfbCew80v"
-                                class="btn btn-primary btn-pay js-cta-primary"
-                                data-cta="exit-intent-private-usd"
-                                target="_blank"
-                                rel="noopener noreferrer">
+                            <button type="button" class="btn btn-primary btn-pay btn-pay--disabled" disabled aria-disabled="true">
                                 <span class="btn-pay-currency">Pay in USD</span>
                                 <span class="btn-pay-amount">$11,000</span>
-                            </a>
-                            <a href="https://paystack.shop/pay/b49jbh840u"
-                                class="btn btn-pay btn-pay--ngn js-cta-secondary"
-                                data-cta="exit-intent-private-ngn"
-                                target="_blank"
-                                rel="noopener noreferrer">
+                            </button>
+                            <button type="button" class="btn btn-pay btn-pay--ngn btn-pay--disabled" disabled aria-disabled="true">
                                 <span class="btn-pay-currency">Pay in Naira</span>
                                 <span class="btn-pay-amount">₦15,000,000</span>
-                            </a>
+                            </button>
                         </div>
                     </article>
 
                     <article class="exit-intent-package exit-intent-slide">
                         <div class="exit-intent-package-head">
-                            <span class="exit-intent-package-label">3 / 4 · Training + Sessions</span>
+                            <span class="exit-intent-package-label">3 / 4 · Training Session</span>
                             <div class="exit-intent-pricing exit-intent-pricing--single" aria-label="Training pricing">
+                                <span class="exit-intent-price-was">$3,500</span>
                                 <span class="exit-intent-price-now">$2,000</span>
                             </div>
-                            <p class="exit-intent-package-note">or ₦2,800,000 · sessions only · no China travel</p>
+                            <p class="exit-intent-package-note">or ₦2,600,000 · training session only · no China travel</p>
                         </div>
                         <div class="package-pay-actions">
                             <a href="https://buy.stripe.com/28EdRaaF69TN1Sm1kMew80w"
@@ -913,27 +885,28 @@
                                 target="_blank"
                                 rel="noopener noreferrer">
                                 <span class="btn-pay-currency">Pay in Naira</span>
-                                <span class="btn-pay-amount">₦2,800,000</span>
+                                <span class="btn-pay-amount">₦2,600,000</span>
                             </a>
                         </div>
                     </article>
 
                     <article class="exit-intent-package exit-intent-slide">
                         <div class="exit-intent-package-head">
-                            <span class="exit-intent-package-label">4 / 4 · Training + Sessions + Tour</span>
+                            <span class="exit-intent-package-label">4 / 4 · Training Session + Tour</span>
                             <div class="exit-intent-pricing exit-intent-pricing--single" aria-label="Training + Tour pricing">
-                                <span class="exit-intent-price-now">$3,000</span>
+                                <span class="exit-intent-price-was">$5,000</span>
+                                <span class="exit-intent-price-now">$3,500</span>
                             </div>
-                            <p class="exit-intent-package-note">or ₦4,200,000 · training + guided tour</p>
+                            <p class="exit-intent-package-note">or ₦4,550,000 · training session + guided tour</p>
                         </div>
                         <div class="package-pay-actions">
-                            <a href="https://buy.stripe.com/fZu3cw9B2fe77cG2oQew80x"
+                            <a href="https://buy.stripe.com/4gM9AUcNegib68C0gIew80S"
                                 class="btn btn-primary btn-pay js-cta-primary"
                                 data-cta="exit-intent-training-tour-usd"
                                 target="_blank"
                                 rel="noopener noreferrer">
                                 <span class="btn-pay-currency">Pay in USD</span>
-                                <span class="btn-pay-amount">$3,000</span>
+                                <span class="btn-pay-amount">$3,500</span>
                             </a>
                             <a href="https://paystack.shop/pay/29kgeehvmy"
                                 class="btn btn-pay btn-pay--ngn js-cta-secondary"
@@ -941,7 +914,7 @@
                                 target="_blank"
                                 rel="noopener noreferrer">
                                 <span class="btn-pay-currency">Pay in Naira</span>
-                                <span class="btn-pay-amount">₦4,200,000</span>
+                                <span class="btn-pay-amount">₦4,550,000</span>
                             </a>
                         </div>
                     </article>

@@ -432,7 +432,8 @@ document.addEventListener('DOMContentLoaded', () => {
             restartExitAutoLoop();
         }, { passive: true });
 
-        setExitSlide(0);
+        // Lead with an available training option; sold-out room tickets remain in the loop.
+        setExitSlide(2);
 
         return { setExitSlide, restartExitAutoLoop, stopExitAutoLoop };
     };
@@ -448,7 +449,7 @@ document.addEventListener('DOMContentLoaded', () => {
         exitShown = true;
         exitIntent.classList.add('is-visible');
         exitIntent.setAttribute('aria-hidden', 'false');
-        exitCarousel?.setExitSlide(0);
+        exitCarousel?.setExitSlide(2);
         exitCarousel?.restartExitAutoLoop();
         trackEvent('exit_intent_shown', { event_category: 'engagement' });
     };
