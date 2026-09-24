@@ -368,11 +368,18 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const initExitPackageSlider = () => {
         if (!exitSlider) return null;
+        // Sold-out tickets must never appear in the exit popup carousel.
+        exitSlider.querySelectorAll('.exit-intent-package--sold-out').forEach((slide) => slide.remove());
         const slides = Array.from(exitSlider.querySelectorAll('.exit-intent-slide'));
         const prevBtn = exitSlider.querySelector('.exit-intent-carousel-prev');
         const nextBtn = exitSlider.querySelector('.exit-intent-carousel-next');
         const dotsContainer = exitSlider.querySelector('.exit-intent-carousel-dots');
         if (!slides.length || !dotsContainer) return null;
+
+        slides.forEach((slide, index) => {
+            const label = slide.querySelector('.exit-intent-package-label');
+            if (label) label.textContent = label.textContent.replace(/^\d+\s*\/\s*\d+/, `${index + 1} / ${slides.length}`);
+        });
 
         dotsContainer.innerHTML = '';
         slides.forEach((_, idx) => {
@@ -432,8 +439,8 @@ document.addEventListener('DOMContentLoaded', () => {
             restartExitAutoLoop();
         }, { passive: true });
 
-        // Lead with an available training option; sold-out room tickets remain in the loop.
-        setExitSlide(2);
+        // Lead with the first available package.
+        setExitSlide(0);
 
         return { setExitSlide, restartExitAutoLoop, stopExitAutoLoop };
     };
@@ -449,7 +456,7 @@ document.addEventListener('DOMContentLoaded', () => {
         exitShown = true;
         exitIntent.classList.add('is-visible');
         exitIntent.setAttribute('aria-hidden', 'false');
-        exitCarousel?.setExitSlide(2);
+        exitCarousel?.setExitSlide(0);
         exitCarousel?.restartExitAutoLoop();
         trackEvent('exit_intent_shown', { event_category: 'engagement' });
     };
