@@ -12,7 +12,7 @@ document.addEventListener('DOMContentLoaded', () => {
         fullPrice: 10000,
         totalDiscountSeats: 30,
         seatsRemaining: 10, // Update manually or wire to backend
-        registrationDeadline: new Date('2026-07-31T23:59:59'),
+        registrationDeadline: new Date('2027-03-31T23:59:59'),
         stripeShared: 'https://buy.stripe.com/cNi7sM8wY8PJ9kOe7yew80u',
         stripePrivate: 'https://buy.stripe.com/3cI28s3cEgib68CfbCew80v'
     };
