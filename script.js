@@ -96,6 +96,105 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
+    // ── Terms & Conditions consent (required before any checkout) ──
+    const termsModal = document.getElementById('terms-modal');
+    const payLinkSelector = 'a.btn-pay[href]';
+    let termsAccepted = false;
+    let pendingPayLink = null;
+
+    const termsBoxes = [];
+    document.querySelectorAll('.package-pay-actions').forEach((actions, idx) => {
+        if (!actions.querySelector(payLinkSelector)) return;
+        const wrap = document.createElement('div');
+        wrap.className = 'terms-consent';
+        wrap.innerHTML = `
+            <label class="terms-consent-label">
+                <input type="checkbox" class="terms-consent-input" id="terms-consent-${idx}">
+                <span>I have read and agree to the <a href="#terms" data-open-terms>Terms &amp; Conditions</a>, including the no-refund policy.</span>
+            </label>
+            <p class="terms-consent-error" role="alert" hidden>Please tick the box to agree to the Terms &amp; Conditions before paying.</p>`;
+        actions.parentNode.insertBefore(wrap, actions);
+        termsBoxes.push(wrap);
+    });
+
+    const setTermsAccepted = (accepted) => {
+        termsAccepted = accepted;
+        termsBoxes.forEach(wrap => {
+            wrap.querySelector('.terms-consent-input').checked = accepted;
+            if (accepted) {
+                wrap.classList.remove('has-error');
+                wrap.querySelector('.terms-consent-error').hidden = true;
+            }
+        });
+        document.querySelectorAll(payLinkSelector).forEach(link => {
+            link.classList.toggle('btn-pay--locked', !accepted);
+        });
+        if (accepted) {
+            trackEvent('terms_accepted', { event_category: 'checkout' });
+        }
+    };
+
+    termsBoxes.forEach(wrap => {
+        wrap.querySelector('.terms-consent-input').addEventListener('change', (e) => {
+            setTermsAccepted(e.target.checked);
+        });
+    });
+
+    const openTermsModal = () => {
+        if (!termsModal) return;
+        termsModal.classList.add('is-visible');
+        termsModal.setAttribute('aria-hidden', 'false');
+        termsModal.querySelector('.terms-modal-body')?.focus();
+    };
+
+    const closeTermsModal = () => {
+        if (!termsModal) return;
+        termsModal.classList.remove('is-visible');
+        termsModal.setAttribute('aria-hidden', 'true');
+        pendingPayLink = null;
+    };
+
+    document.addEventListener('click', (e) => {
+        const opener = e.target.closest('[data-open-terms]');
+        if (opener) {
+            e.preventDefault();
+            openTermsModal();
+            return;
+        }
+
+        const payLink = e.target.closest(payLinkSelector);
+        if (!payLink || termsAccepted) return;
+
+        // Block checkout (and its tracking) until terms are accepted
+        e.preventDefault();
+        e.stopPropagation();
+        pendingPayLink = payLink;
+        const wrap = payLink.closest('.package-pay, .exit-intent-package')?.querySelector('.terms-consent');
+        if (wrap) {
+            wrap.classList.add('has-error');
+            wrap.querySelector('.terms-consent-error').hidden = false;
+            wrap.querySelector('.terms-consent-input').focus();
+        }
+    }, true);
+
+    document.querySelectorAll('[data-close-terms]').forEach(el => {
+        el.addEventListener('click', closeTermsModal);
+    });
+
+    document.querySelector('[data-accept-terms]')?.addEventListener('click', () => {
+        const link = pendingPayLink;
+        setTermsAccepted(true);
+        closeTermsModal();
+        // Resume the checkout the visitor originally clicked
+        if (link) link.click();
+    });
+
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && termsModal?.classList.contains('is-visible')) closeTermsModal();
+    });
+
+    setTermsAccepted(false);
+
     // ── Navbar scroll state ──
     const navbar = document.querySelector('.navbar');
     const setNavbarScrolled = () => {
